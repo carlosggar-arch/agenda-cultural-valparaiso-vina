@@ -1,0 +1,4083 @@
+{
+  "cold_load": {
+    "cities": [
+      "valparaiso",
+      "gijon"
+    ],
+    "origins": [
+      "github-pages",
+      "cloudflare"
+    ],
+    "roundtrip": "valparaiso->gijon->valparaiso",
+    "roundtrip_filter": "7-dias"
+  },
+  "core_execution": {
+    "authority": {
+      "mode": "ordinary"
+    },
+    "binding": {
+      "acquisition_shas": {
+        "valpo": "9a6a9122832fd968c3a869c0b6e3a0a645fe60e4"
+      },
+      "core_sha": "c72e91ba2844ecdb9d30219fd9bf808392151c93",
+      "fence_sha256": "0c1329617be026b754b0e0098c83fd0dee89f8f9cbd6487c30b8cdb7615a34c6",
+      "finalizer": {
+        "run_attempt": 1,
+        "run_id": 42500093013
+      },
+      "intent_id": "f1398f5328413a05bb3cd351f3b420a5cb31b6721ff4393379388e224529a858",
+      "lineage_sha256": "8a1c981cfa0652c1f11357756d36c4b60de11308fd6322153474807d7e9e91c6",
+      "parent_sha": "bd97fe6c0c937e79b332395c44d9477c72023d8f",
+      "public_sha": "aa5160b8abafe508ed026440a40a3657d05c9bd4",
+      "publisher": {
+        "run_attempt": 1,
+        "run_id": 42500015361
+      },
+      "receipt_sha256": "d6ff34e39487570f003a34b1baaa16abd6f0cf73725cc86bb74648816b510209",
+      "release_bundle_sha256": "d2cec0f350b25fb992e862a7b665ac90d3efafcb83b4bdf2991a09f73a5e624b",
+      "release_id": "v271-48d6891ac317",
+      "sigstore_bundle_sha256": "d24152336f3082e99c01691fdc801e566ba946f1a5b1257f638b2fcc8b6f128d"
+    },
+    "binding_sha256": "2885ba706f631d79743f4bdf35b43a457b2f8ce756ee8c99d4f02b1658d1edeb",
+    "canonical": {
+      "run_attempt": 1,
+      "run_id": 42500674041
+    },
+    "contract": "core-publication-execution-binding",
+    "execution": {
+      "run_attempt": 1,
+      "run_id": 42500674041,
+      "workflow_head_sha": "aa5160b8abafe508ed026440a40a3657d05c9bd4"
+    },
+    "role": "canonical",
+    "version": "2.0.0"
+  },
+  "critical_assets": {
+    "count": 15,
+    "local_sha256": {
+      "agenda_web.json": "224568e5d2aa2986e1d958f8e0fa6a848b383c8a69c8aefd741e3dcf7bcdbd20",
+      "app/app.js": "34150b57a16c642e7c9f2a6a54cea7051ca6b8708d0ffd4c6d59d28a8e125e04",
+      "app/data/gijon/agenda_web.json": "3c96808ad0f043da0436679e94f5f987024d998a71863be7717e02e1d1e88767",
+      "app/data/release-bundle.json": "d2cec0f350b25fb992e862a7b665ac90d3efafcb83b4bdf2991a09f73a5e624b",
+      "app/data/source-registry.json": "b5f2579db0e707ed0f028922156d11bd95b8a0f3ccd47664d02680150be4417e",
+      "app/data/venue-registry.json": "c98c50157e7c0181b08925743ccfb2e4ae40bcca103b148d5ac1fca30f9dae34",
+      "app/event-image-renderer.mjs": "f13e4be42dcca64a609c28785d6807e10d4e6c2621bd20d0678549d748dbaea7",
+      "app/index.html": "8a6cde94f252f5f85267400d1f9d7b4106a2816fcc83159220c71f59db3ee321",
+      "app/pwa.js": "254d05c0837e35709c767074b700ae5d9c7115cfcdcf9071635ee168a550078a",
+      "app/release-version.js": "87de3824ed4434b68fe74c87e69d242befc8c52a1e64a898050c44cbc3ae4ae6",
+      "app/service-worker-assets.generated.js": "bb78021ba6ac3911d02243264d2205356b24bfee56f90336a1ee010fd6b4a858",
+      "assets/agenda.js": "bae8caf28b929e512997fdbaacbde6db9a5153fa45162e59006460ecc577cad5",
+      "assets/root-agenda-bootstrap.mjs": "57908771d0c852a74818144c010de9586889533908f9b107786b284d7cecc5df",
+      "fuentes_publicas.json": "a32c194c331a23ccc4949364754c009043571dd699be2f0e888fefbc1f82e9ee",
+      "index.html": "628d14f0019140b4c7f07d900bb5b5a7fc4a6a6265da36c9b8e9ae7d31c55dc4"
+    },
+    "network_reverified": true,
+    "origins_sha256": {
+      "cloudflare": {
+        "agenda_web.json": "224568e5d2aa2986e1d958f8e0fa6a848b383c8a69c8aefd741e3dcf7bcdbd20",
+        "app/app.js": "34150b57a16c642e7c9f2a6a54cea7051ca6b8708d0ffd4c6d59d28a8e125e04",
+        "app/data/gijon/agenda_web.json": "3c96808ad0f043da0436679e94f5f987024d998a71863be7717e02e1d1e88767",
+        "app/data/release-bundle.json": "d2cec0f350b25fb992e862a7b665ac90d3efafcb83b4bdf2991a09f73a5e624b",
+        "app/data/source-registry.json": "b5f2579db0e707ed0f028922156d11bd95b8a0f3ccd47664d02680150be4417e",
+        "app/data/venue-registry.json": "c98c50157e7c0181b08925743ccfb2e4ae40bcca103b148d5ac1fca30f9dae34",
+        "app/event-image-renderer.mjs": "f13e4be42dcca64a609c28785d6807e10d4e6c2621bd20d0678549d748dbaea7",
+        "app/index.html": "8a6cde94f252f5f85267400d1f9d7b4106a2816fcc83159220c71f59db3ee321",
+        "app/pwa.js": "254d05c0837e35709c767074b700ae5d9c7115cfcdcf9071635ee168a550078a",
+        "app/release-version.js": "87de3824ed4434b68fe74c87e69d242befc8c52a1e64a898050c44cbc3ae4ae6",
+        "app/service-worker-assets.generated.js": "bb78021ba6ac3911d02243264d2205356b24bfee56f90336a1ee010fd6b4a858",
+        "assets/agenda.js": "bae8caf28b929e512997fdbaacbde6db9a5153fa45162e59006460ecc577cad5",
+        "assets/root-agenda-bootstrap.mjs": "57908771d0c852a74818144c010de9586889533908f9b107786b284d7cecc5df",
+        "fuentes_publicas.json": "a32c194c331a23ccc4949364754c009043571dd699be2f0e888fefbc1f82e9ee",
+        "index.html": "628d14f0019140b4c7f07d900bb5b5a7fc4a6a6265da36c9b8e9ae7d31c55dc4"
+      },
+      "github-pages": {
+        "agenda_web.json": "224568e5d2aa2986e1d958f8e0fa6a848b383c8a69c8aefd741e3dcf7bcdbd20",
+        "app/app.js": "34150b57a16c642e7c9f2a6a54cea7051ca6b8708d0ffd4c6d59d28a8e125e04",
+        "app/data/gijon/agenda_web.json": "3c96808ad0f043da0436679e94f5f987024d998a71863be7717e02e1d1e88767",
+        "app/data/release-bundle.json": "d2cec0f350b25fb992e862a7b665ac90d3efafcb83b4bdf2991a09f73a5e624b",
+        "app/data/source-registry.json": "b5f2579db0e707ed0f028922156d11bd95b8a0f3ccd47664d02680150be4417e",
+        "app/data/venue-registry.json": "c98c50157e7c0181b08925743ccfb2e4ae40bcca103b148d5ac1fca30f9dae34",
+        "app/event-image-renderer.mjs": "f13e4be42dcca64a609c28785d6807e10d4e6c2621bd20d0678549d748dbaea7",
+        "app/index.html": "8a6cde94f252f5f85267400d1f9d7b4106a2816fcc83159220c71f59db3ee321",
+        "app/pwa.js": "254d05c0837e35709c767074b700ae5d9c7115cfcdcf9071635ee168a550078a",
+        "app/release-version.js": "87de3824ed4434b68fe74c87e69d242befc8c52a1e64a898050c44cbc3ae4ae6",
+        "app/service-worker-assets.generated.js": "bb78021ba6ac3911d02243264d2205356b24bfee56f90336a1ee010fd6b4a858",
+        "assets/agenda.js": "bae8caf28b929e512997fdbaacbde6db9a5153fa45162e59006460ecc577cad5",
+        "assets/root-agenda-bootstrap.mjs": "57908771d0c852a74818144c010de9586889533908f9b107786b284d7cecc5df",
+        "fuentes_publicas.json": "a32c194c331a23ccc4949364754c009043571dd699be2f0e888fefbc1f82e9ee",
+        "index.html": "628d14f0019140b4c7f07d900bb5b5a7fc4a6a6265da36c9b8e9ae7d31c55dc4"
+      }
+    }
+  },
+  "head_sha": "2442946135c7f42af1c8131b213c0ffad6c4bf9b",
+  "history_chain": {
+    "algorithm": "sha256",
+    "attestation_sha256": "1c81a96024242772ddc8a1c6848698a09774b590e5d17bf5271a0a76a422987a",
+    "previous_archive_sha256": "b1e3f3e9db44b093c99dcd75a0fe6a7ddbe4b70f23a670ad8b20082898389e37",
+    "previous_path": "data/releases/v271/bd97fe6c0c937e79b332395c44d9477c72023d8f.json",
+    "schema_version": "1.0.0"
+  },
+  "official_event_images": {
+    "agenda_1854dfc03941d9be3045b35c": {
+      "dimensions": [
+        1080,
+        1081
+      ],
+      "evidence_commit": "2442946135c7f42af1c8131b213c0ffad6c4bf9b",
+      "origin_url": null,
+      "origins_sha256": {
+        "cloudflare": "68785889421457dadceb7e517ab464bd88779022716f977c008f18ce16e1d422",
+        "github-pages": "68785889421457dadceb7e517ab464bd88779022716f977c008f18ce16e1d422"
+      },
+      "provenance_kind": "owned_publication",
+      "published_url": "./assets/event-images/valparaiso/68785889421457dadceb7e51.webp",
+      "repository_path": "app/assets/event-images/valparaiso/68785889421457dadceb7e51.webp",
+      "sha256": "68785889421457dadceb7e517ab464bd88779022716f977c008f18ce16e1d422",
+      "title": "Exposición \"Contar el mar(itorio)\"",
+      "visually_verified_surfaces": [
+        "app",
+        "web"
+      ]
+    },
+    "agenda_419476fe16a1f057893e0c5d": {
+      "dimensions": [
+        1080,
+        1350
+      ],
+      "evidence_commit": "2442946135c7f42af1c8131b213c0ffad6c4bf9b",
+      "origin_url": null,
+      "origins_sha256": {
+        "cloudflare": "0aecf8d8f3c433900429c42cec9c3ec6eb283a6489c259113c9fd902e9e2143c",
+        "github-pages": "0aecf8d8f3c433900429c42cec9c3ec6eb283a6489c259113c9fd902e9e2143c"
+      },
+      "provenance_kind": "owned_publication",
+      "published_url": "./assets/event-images/valparaiso/0aecf8d8f3c433900429c42c.webp",
+      "repository_path": "app/assets/event-images/valparaiso/0aecf8d8f3c433900429c42c.webp",
+      "sha256": "0aecf8d8f3c433900429c42cec9c3ec6eb283a6489c259113c9fd902e9e2143c",
+      "title": "Escuelita Aprendices LABORATORIO DE PRIMAVERA",
+      "visually_verified_surfaces": [
+        "app",
+        "web"
+      ]
+    }
+  },
+  "publication_state": "published_and_visually_verified",
+  "release": 271,
+  "release_fingerprint": "48d6891ac3173e8c44a9c4d0dbfd8a405691cabe6ae0c470dcecdf7b44ad5c58",
+  "release_id": "v271-48d6891ac317",
+  "schema_version": "1.0.0",
+  "snapshot_verification": {
+    "composition": {
+      "changed_paths": [
+        "app/scripts/production_semantic_capabilities.py",
+        "app/scripts/test_production_browser_semantic_capabilities.py"
+      ],
+      "contract": "historical-data-current-runtime-composition",
+      "historical": {
+        "head_sha": "aa5160b8abafe508ed026440a40a3657d05c9bd4",
+        "release_id": "v271-48d6891ac317",
+        "tree_sha": "b25c78f8d8314b7935a7091c163eed0b0b7e21f4"
+      },
+      "preserved_blobs": {
+        "agenda_web.json": "5e669b1e5b95aa05be13a8381611aa859ca714d5",
+        "app/data/gijon/agenda_web.json": "dae23c9198c5dc2735adffa6d5f3d77578ac8965",
+        "app/data/quality/event-quality.json": "73593b1832f077d8e7e5c6549c51411c182ec441",
+        "app/data/quality/release-readiness.json": "29a11f1fa81e5ebbe80a0e67e1932da95a34d458",
+        "app/data/quality/source-coverage.json": "3a3a1da54a1bd2065d29ed3ea796a6ccdaf1ace7",
+        "app/data/source-registry.json": "077ea3981a48d6e578ca73d2dc04cf9516b4aa2c",
+        "app/data/venue-registry.json": "7a5633c6ab123306feadbdc0d1386b788ac11420",
+        "fuentes_publicas.json": "d03870343e78f5e54596d38164a8d60badfed7bb"
+      },
+      "runtime": {
+        "head_sha": "2442946135c7f42af1c8131b213c0ffad6c4bf9b",
+        "release_id": "v271-48d6891ac317",
+        "tree_sha": "8a118872f3802a20f2603b64ee65a9252d154796"
+      },
+      "version": "1.0.0"
+    },
+    "contract": "core-publication-snapshot-verification",
+    "execution": {
+      "run_attempt": 1,
+      "run_id": 42508064233,
+      "workflow_head_sha": "2442946135c7f42af1c8131b213c0ffad6c4bf9b"
+    },
+    "original_artifact": {
+      "id": 13625571122,
+      "sha256": "10313af7e3e547bc9506871e7a943a9ec293f2ada3f3f9462e16bb8cf701b29a"
+    },
+    "original_core_execution": {
+      "authority": {
+        "mode": "ordinary"
+      },
+      "binding": {
+        "acquisition_shas": {
+          "valpo": "9a6a9122832fd968c3a869c0b6e3a0a645fe60e4"
+        },
+        "core_sha": "c72e91ba2844ecdb9d30219fd9bf808392151c93",
+        "fence_sha256": "0c1329617be026b754b0e0098c83fd0dee89f8f9cbd6487c30b8cdb7615a34c6",
+        "finalizer": {
+          "run_attempt": 1,
+          "run_id": 42500093013
+        },
+        "intent_id": "f1398f5328413a05bb3cd351f3b420a5cb31b6721ff4393379388e224529a858",
+        "lineage_sha256": "8a1c981cfa0652c1f11357756d36c4b60de11308fd6322153474807d7e9e91c6",
+        "parent_sha": "bd97fe6c0c937e79b332395c44d9477c72023d8f",
+        "public_sha": "aa5160b8abafe508ed026440a40a3657d05c9bd4",
+        "publisher": {
+          "run_attempt": 1,
+          "run_id": 42500015361
+        },
+        "receipt_sha256": "d6ff34e39487570f003a34b1baaa16abd6f0cf73725cc86bb74648816b510209",
+        "release_bundle_sha256": "d2cec0f350b25fb992e862a7b665ac90d3efafcb83b4bdf2991a09f73a5e624b",
+        "release_id": "v271-48d6891ac317",
+        "sigstore_bundle_sha256": "d24152336f3082e99c01691fdc801e566ba946f1a5b1257f638b2fcc8b6f128d"
+      },
+      "binding_sha256": "2885ba706f631d79743f4bdf35b43a457b2f8ce756ee8c99d4f02b1658d1edeb",
+      "canonical": {
+        "run_attempt": 1,
+        "run_id": 42500674041
+      },
+      "contract": "core-publication-execution-binding",
+      "execution": {
+        "run_attempt": 1,
+        "run_id": 42500674041,
+        "workflow_head_sha": "aa5160b8abafe508ed026440a40a3657d05c9bd4"
+      },
+      "role": "canonical",
+      "version": "2.0.0"
+    },
+    "verifier": {
+      "code_hashes": {
+        ".github/workflows/production-certification-watchdog.yml": "c48544c3143e968c3b15858cb26a6f41d939cc02",
+        ".github/workflows/publish.yml": "58dfaf772d13cac60cef954d10e93af5832e2b5a",
+        "app/scripts/core_publication_lineage.py": "284938a1deeef76f465ed3519bb61959ecba37c8",
+        "app/scripts/deployment_readiness.py": "37245b11e412b520de2c9919c7b02ac48d4268c9",
+        "app/scripts/generate_runtime_contracts.py": "f5dd4645dbad43fa51e9fa8aa77bfa11ba30a214",
+        "app/scripts/production_admin_staging_smoke.py": "1d3623963298313c353b5d97c78c191c027ea63b",
+        "app/scripts/production_browser_selenium_smoke.py": "a6620a9217b83e5fe0a284d69d04661f70c8819f",
+        "app/scripts/production_certification_history.py": "a386239d1dd13159b96e3deaa1317ad5223ce9df",
+        "app/scripts/production_certification_watchdog.py": "9b0efee42708d44ef3c2e422ead378afdd3666dd",
+        "app/scripts/production_pwa_smoke.py": "12aebb8471f7bb32a96c882bb9350922f47e6f6c",
+        "app/scripts/production_release_attestation.py": "538195d7b12211f2f05b3f08cf47c61150028267",
+        "app/scripts/production_release_chain.py": "95c7f4766032ecd5ce56acd036d8b2b9d55c097c",
+        "app/scripts/production_series_contract.py": "fd6fabe3685cd675379f42cf518da1380a443a00",
+        "app/scripts/production_warm_start_smoke.py": "260fea1b2b16af47351150fdffdbb315aedc9d67",
+        "app/scripts/publication_execution_binding.py": "ba9f56cadf87ef70109bb1e8bfd4a7d70f750e7f",
+        "app/scripts/publication_execution_github.py": "00171ec52eaeed909a23d7f27400cdf07740cd10",
+        "app/scripts/publication_execution_routing.py": "02b58ed324f851ee6fbc43e51af9c3dd4f8b827b",
+        "app/scripts/publication_snapshot_verification.py": "b01e8b5f0eec4f401c0489197ddcc6792603157e",
+        "app/scripts/release_bundle.py": "e7a1952e00cf1c7dbfcb8d67400b57c8946c9398",
+        "app/scripts/release_finalizer.py": "66be56294351ede5865c767a06fe296fa010c07f",
+        "app/scripts/snapshot_production_smoke.py": "a6dbb69b34907f7c77162614ca7de77b12548eec",
+        "app/scripts/snapshot_verification_cli.py": "d219b6b02a7b0cf5bf88e6b41586d9f1fb5a2955",
+        "app/scripts/test_web_pwa_visibility_parity.py": "5ad6c9226fdd13b76d1cbe68a8ec9651b393c4cd",
+        "app/scripts/verify_core_publication_bundle.py": "a85b210151b47cd9ba59ed4e96ae282b1781daa2",
+        "requirements-ci.txt": "5f44b210476bac2289032a79610efb5ed5a00624"
+      },
+      "tree_sha": "8a118872f3802a20f2603b64ee65a9252d154796"
+    },
+    "version": "2.0.0"
+  },
+  "verified_at": "2026-11-08T18:06:04Z",
+  "warm_reopen": {
+    "cloudflare": {
+      "cold_seconds": 1.25,
+      "processed_cache": "ready",
+      "release": 271,
+      "speedup": 1.95,
+      "viewport": "390x844",
+      "warm_seconds": 0.64
+    },
+    "github-pages": {
+      "cold_seconds": 1.48,
+      "processed_cache": "ready",
+      "release": 271,
+      "speedup": 3.4,
+      "viewport": "390x844",
+      "warm_seconds": 0.44
+    }
+  },
+  "web_pwa_exact_id_parity": {
+    "at": "2026-11-08T18:05:00Z",
+    "rows": [
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "gijon",
+        "count": 16,
+        "ids": [
+          "agenda_gijon_f0ffe167dcb4882c",
+          "gijon_laboral_ciudad_cultura_474faaf048761a59",
+          "agenda_gijon_2f72e6e7421a107a",
+          "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+          "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+          "agenda_gijon_2acb3495a11bfccc",
+          "agenda_gijon_712bfa6ac855e2ba",
+          "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+          "gijon_gijon_arena_8ac9fd7584459fe7",
+          "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+          "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+          "gijon_laboral_centro_arte_de61cb2048c21ecb",
+          "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+          "agenda_gijon_6fb58f98d9761c56",
+          "agenda_gijon_98d5f4adbfb66753",
+          "agenda_gijon_6d1efd370091c858"
+        ],
+        "origin": "cloudflare",
+        "presentation": [
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_f0ffe167dcb4882c",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_474faaf048761a59",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_2f72e6e7421a107a",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+            "section": "7-dias",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "cine",
+            "id": "agenda_gijon_2acb3495a11bfccc",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_712bfa6ac855e2ba",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_8ac9fd7584459fe7",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_de61cb2048c21ecb",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6fb58f98d9761c56",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_98d5f4adbfb66753",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6d1efd370091c858",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "7-dias"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "gijon",
+        "count": 10,
+        "ids": [
+          "agenda_gijon_f0ffe167dcb4882c",
+          "gijon_laboral_ciudad_cultura_474faaf048761a59",
+          "agenda_gijon_2f72e6e7421a107a",
+          "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+          "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+          "gijon_laboral_centro_arte_de61cb2048c21ecb",
+          "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+          "agenda_gijon_6fb58f98d9761c56",
+          "agenda_gijon_98d5f4adbfb66753",
+          "agenda_gijon_6d1efd370091c858"
+        ],
+        "origin": "cloudflare",
+        "presentation": [
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_f0ffe167dcb4882c",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_474faaf048761a59",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_2f72e6e7421a107a",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+            "section": "hoy",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_de61cb2048c21ecb",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6fb58f98d9761c56",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_98d5f4adbfb66753",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6d1efd370091c858",
+            "section": "hoy",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "hoy"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "gijon",
+        "count": 69,
+        "ids": [
+          "agenda_gijon_f0ffe167dcb4882c",
+          "gijon_laboral_ciudad_cultura_474faaf048761a59",
+          "agenda_gijon_2f72e6e7421a107a",
+          "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+          "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+          "agenda_gijon_2acb3495a11bfccc",
+          "agenda_gijon_712bfa6ac855e2ba",
+          "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+          "gijon_gijon_arena_8ac9fd7584459fe7",
+          "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+          "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+          "agenda_gijon_152def98b3bf3ad6",
+          "gijon_laboral_ciudad_cultura_9b4b2a6860184ee2",
+          "gijon_el_huerto_gijon_c54f118bf2cd7f4a",
+          "gijon_teatro_albeniz_gijon_93b925293cf3a5c3",
+          "gijon_gijon_arena_1cb92fbfc25fcc13",
+          "gijon_el_huerto_gijon_a47af91d147d935a",
+          "gijon_laboral_ciudad_cultura_0dbb19b8f48513bf",
+          "gijon_gijon_arena_ff9ff19cf38f8ac5",
+          "agenda_gijon_44af6747ca0fe5aa",
+          "gijon_el_huerto_gijon_8fc630b3d8e88622",
+          "gijon_laboral_ciudad_cultura_95faed049fad7ba9",
+          "agenda_gijon_bfb915c4c56e12cd",
+          "gijon_teatro_albeniz_gijon_af9f7cc15d634bcb",
+          "agenda_gijon_7ef5df922bf3488f",
+          "agenda_gijon_a7ea4d654e50ca46",
+          "agenda_gijon_02d6541660505daf",
+          "agenda_gijon_94efa196197a9045",
+          "gijon_laboral_ciudad_cultura_09f8c0f320985e02",
+          "agenda_gijon_f9ef8cd806b6c154",
+          "gijon_el_huerto_gijon_bdc1eb1cb40092b2",
+          "agenda_gijon_f4d06c0e8cc7096e",
+          "gijon_laboral_ciudad_cultura_024e6e919d498307",
+          "agenda_gijon_7b1d24a963848ce3",
+          "agenda_gijon_fd5694a3606d6919",
+          "agenda_gijon_5c0278b94108389a",
+          "agenda_gijon_be488f34fadc97f3",
+          "gijon_laboral_ciudad_cultura_35d42210fbda93f5",
+          "gijon_laboral_ciudad_cultura_b2a8666b9d60b6fe",
+          "agenda_gijon_01a281b235f68fa5",
+          "gijon_el_huerto_gijon_00876cc5882f4138",
+          "gijon_laboral_ciudad_cultura_5a20255cb32ef651",
+          "agenda_gijon_8471d1487ef428a2",
+          "agenda_gijon_a45563a15689e609",
+          "agenda_gijon_d7519b0e555a8c5f",
+          "agenda_gijon_f71427692faf4b31",
+          "gijon_el_huerto_gijon_db290e8e9fb007e2",
+          "gijon_laboral_ciudad_cultura_b653534dd88bea31",
+          "agenda_gijon_456dad9a42c08f84",
+          "gijon_laboral_ciudad_cultura_08e11a234e0b6024",
+          "gijon_gijon_arena_de536c86f7ac2144",
+          "gijon_el_huerto_gijon_26353e452cd302d4",
+          "agenda_gijon_b64b5ed86c0b1b20",
+          "gijon_laboral_ciudad_cultura_7e143d059c27120b",
+          "gijon_laboral_ciudad_cultura_5ae5056634dd9513",
+          "gijon_laboral_ciudad_cultura_a06331fc6e92663c",
+          "gijon_laboral_ciudad_cultura_229d3806419a20b4",
+          "gijon_laboral_ciudad_cultura_ecf39bf6542d5e24",
+          "gijon_gijon_arena_67a184e4bad47b06",
+          "gijon_laboral_ciudad_cultura_8a21b57651be6fd7",
+          "gijon_gijon_arena_73aa4ff9d5786e79",
+          "gijon_laboral_ciudad_cultura_4ec1d6d29b9f7752",
+          "gijon_laboral_ciudad_cultura_312e78286078f0c5",
+          "gijon_laboral_ciudad_cultura_c3290c6e650368f9",
+          "gijon_laboral_centro_arte_de61cb2048c21ecb",
+          "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+          "agenda_gijon_6fb58f98d9761c56",
+          "agenda_gijon_98d5f4adbfb66753",
+          "agenda_gijon_6d1efd370091c858"
+        ],
+        "origin": "cloudflare",
+        "presentation": [
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_f0ffe167dcb4882c",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_474faaf048761a59",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_2f72e6e7421a107a",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+            "section": "todos",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "cine",
+            "id": "agenda_gijon_2acb3495a11bfccc",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_712bfa6ac855e2ba",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_8ac9fd7584459fe7",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_152def98b3bf3ad6",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_9b4b2a6860184ee2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_c54f118bf2cd7f4a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_93b925293cf3a5c3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_1cb92fbfc25fcc13",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_a47af91d147d935a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_0dbb19b8f48513bf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_ff9ff19cf38f8ac5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_44af6747ca0fe5aa",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_8fc630b3d8e88622",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_95faed049fad7ba9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_bfb915c4c56e12cd",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_af9f7cc15d634bcb",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_7ef5df922bf3488f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_a7ea4d654e50ca46",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_02d6541660505daf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_94efa196197a9045",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_09f8c0f320985e02",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_f9ef8cd806b6c154",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_bdc1eb1cb40092b2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_f4d06c0e8cc7096e",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_024e6e919d498307",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_7b1d24a963848ce3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_fd5694a3606d6919",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_5c0278b94108389a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_be488f34fadc97f3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_35d42210fbda93f5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_b2a8666b9d60b6fe",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_01a281b235f68fa5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_el_huerto_gijon_00876cc5882f4138",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_5a20255cb32ef651",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_8471d1487ef428a2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cine",
+            "id": "agenda_gijon_a45563a15689e609",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_d7519b0e555a8c5f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_f71427692faf4b31",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_db290e8e9fb007e2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_b653534dd88bea31",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_456dad9a42c08f84",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_08e11a234e0b6024",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_de536c86f7ac2144",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_26353e452cd302d4",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_b64b5ed86c0b1b20",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_7e143d059c27120b",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_5ae5056634dd9513",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_a06331fc6e92663c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_229d3806419a20b4",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_ecf39bf6542d5e24",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_67a184e4bad47b06",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_8a21b57651be6fd7",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_73aa4ff9d5786e79",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_4ec1d6d29b9f7752",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_312e78286078f0c5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_c3290c6e650368f9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_de61cb2048c21ecb",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6fb58f98d9761c56",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_98d5f4adbfb66753",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6d1efd370091c858",
+            "section": "todos",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "todos"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "valparaiso",
+        "count": 40,
+        "ids": [
+          "agenda_1854dfc03941d9be3045b35c",
+          "agenda_dcc2caef874cdf7de6edb8c3",
+          "agenda_a5db082cbcdabd233e52e0e8",
+          "agenda_29398e9c6c761cfd27a97d6c",
+          "agenda_5736246b853a952f51cdaf1a",
+          "agenda_a9bf9027ce039a67f49eece5",
+          "agenda_1f61cfd63e862ef1fa0a19d3",
+          "agenda_8ef20a9b314089bb8e14d2b7",
+          "agenda_82b2bebc552fd5e36cfd16af",
+          "agenda_419476fe16a1f057893e0c5d",
+          "agenda_8fec85babee6817c14d4efb6",
+          "agenda_baburizza_92d94cb5c6155222292a",
+          "agenda_baburizza_13c43a72019432598002",
+          "agenda_0bbc1b52d4ad5bdc92ffc76c",
+          "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+          "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+          "agenda_a3040fec5e515c7b994fe8cc",
+          "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+          "agenda_87f9a18c0cb99e0e4986d472",
+          "agenda_trotamundos_280f7e9a869b876582bd",
+          "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+          "agenda_d8d33f071e6744ffa7d28237",
+          "agenda_c5a59d2ed011cefed562727b",
+          "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+          "agenda_691b277a9953a353e338d225",
+          "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+          "agenda_b928696098df053f2f8bf440",
+          "agenda_portaltickets_valparaiso_209b0f34825334d3",
+          "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+          "agenda_trotamundos_94d54fa8ccffa86860de",
+          "agenda_portaltickets_valparaiso_7004346fb529ac28",
+          "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+          "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+          "agenda_portaltickets_valparaiso_f711fa1a39930142",
+          "agenda_5b39d4b6a5f270684794a4ad",
+          "agenda_baburizza_cea5769379084d5f59c6",
+          "agenda_69211fbb6583ae0c4f5f8320",
+          "agenda_f6647381f1d7d96eb2310366",
+          "agenda_594dc3fdc258edd0f6c190b0",
+          "agenda_9b60b4e309fd7b1d6d696379"
+        ],
+        "origin": "cloudflare",
+        "presentation": [
+          {
+            "category": "exposiciones",
+            "id": "agenda_1854dfc03941d9be3045b35c",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_dcc2caef874cdf7de6edb8c3",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_a5db082cbcdabd233e52e0e8",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_29398e9c6c761cfd27a97d6c",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_5736246b853a952f51cdaf1a",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a9bf9027ce039a67f49eece5",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_1f61cfd63e862ef1fa0a19d3",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_8ef20a9b314089bb8e14d2b7",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_82b2bebc552fd5e36cfd16af",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_419476fe16a1f057893e0c5d",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_8fec85babee6817c14d4efb6",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_92d94cb5c6155222292a",
+            "section": "7-dias",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_13c43a72019432598002",
+            "section": "7-dias",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_0bbc1b52d4ad5bdc92ffc76c",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a3040fec5e515c7b994fe8cc",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_87f9a18c0cb99e0e4986d472",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_280f7e9a869b876582bd",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_d8d33f071e6744ffa7d28237",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_c5a59d2ed011cefed562727b",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_691b277a9953a353e338d225",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_b928696098df053f2f8bf440",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_209b0f34825334d3",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_94d54fa8ccffa86860de",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7004346fb529ac28",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_f711fa1a39930142",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_5b39d4b6a5f270684794a4ad",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_cea5769379084d5f59c6",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_69211fbb6583ae0c4f5f8320",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f6647381f1d7d96eb2310366",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_594dc3fdc258edd0f6c190b0",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_9b60b4e309fd7b1d6d696379",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "7-dias"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "valparaiso",
+        "count": 18,
+        "ids": [
+          "agenda_1854dfc03941d9be3045b35c",
+          "agenda_dcc2caef874cdf7de6edb8c3",
+          "agenda_a5db082cbcdabd233e52e0e8",
+          "agenda_29398e9c6c761cfd27a97d6c",
+          "agenda_5736246b853a952f51cdaf1a",
+          "agenda_a9bf9027ce039a67f49eece5",
+          "agenda_1f61cfd63e862ef1fa0a19d3",
+          "agenda_8ef20a9b314089bb8e14d2b7",
+          "agenda_82b2bebc552fd5e36cfd16af",
+          "agenda_419476fe16a1f057893e0c5d",
+          "agenda_8fec85babee6817c14d4efb6",
+          "agenda_baburizza_92d94cb5c6155222292a",
+          "agenda_baburizza_13c43a72019432598002",
+          "agenda_baburizza_cea5769379084d5f59c6",
+          "agenda_69211fbb6583ae0c4f5f8320",
+          "agenda_f6647381f1d7d96eb2310366",
+          "agenda_594dc3fdc258edd0f6c190b0",
+          "agenda_9b60b4e309fd7b1d6d696379"
+        ],
+        "origin": "cloudflare",
+        "presentation": [
+          {
+            "category": "exposiciones",
+            "id": "agenda_1854dfc03941d9be3045b35c",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_dcc2caef874cdf7de6edb8c3",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_a5db082cbcdabd233e52e0e8",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_29398e9c6c761cfd27a97d6c",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_5736246b853a952f51cdaf1a",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a9bf9027ce039a67f49eece5",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_1f61cfd63e862ef1fa0a19d3",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_8ef20a9b314089bb8e14d2b7",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_82b2bebc552fd5e36cfd16af",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_419476fe16a1f057893e0c5d",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_8fec85babee6817c14d4efb6",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_92d94cb5c6155222292a",
+            "section": "hoy",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_13c43a72019432598002",
+            "section": "hoy",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_cea5769379084d5f59c6",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_69211fbb6583ae0c4f5f8320",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f6647381f1d7d96eb2310366",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_594dc3fdc258edd0f6c190b0",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_9b60b4e309fd7b1d6d696379",
+            "section": "hoy",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "hoy"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "valparaiso",
+        "count": 107,
+        "ids": [
+          "agenda_1854dfc03941d9be3045b35c",
+          "agenda_dcc2caef874cdf7de6edb8c3",
+          "agenda_a5db082cbcdabd233e52e0e8",
+          "agenda_29398e9c6c761cfd27a97d6c",
+          "agenda_5736246b853a952f51cdaf1a",
+          "agenda_a9bf9027ce039a67f49eece5",
+          "agenda_1f61cfd63e862ef1fa0a19d3",
+          "agenda_8ef20a9b314089bb8e14d2b7",
+          "agenda_82b2bebc552fd5e36cfd16af",
+          "agenda_419476fe16a1f057893e0c5d",
+          "agenda_8fec85babee6817c14d4efb6",
+          "agenda_baburizza_92d94cb5c6155222292a",
+          "agenda_baburizza_13c43a72019432598002",
+          "agenda_0bbc1b52d4ad5bdc92ffc76c",
+          "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+          "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+          "agenda_a3040fec5e515c7b994fe8cc",
+          "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+          "agenda_87f9a18c0cb99e0e4986d472",
+          "agenda_trotamundos_280f7e9a869b876582bd",
+          "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+          "agenda_d8d33f071e6744ffa7d28237",
+          "agenda_c5a59d2ed011cefed562727b",
+          "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+          "agenda_691b277a9953a353e338d225",
+          "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+          "agenda_b928696098df053f2f8bf440",
+          "agenda_portaltickets_valparaiso_209b0f34825334d3",
+          "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+          "agenda_trotamundos_94d54fa8ccffa86860de",
+          "agenda_portaltickets_valparaiso_7004346fb529ac28",
+          "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+          "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+          "agenda_portaltickets_valparaiso_f711fa1a39930142",
+          "agenda_96fd58e202ee7d4133b68dc9",
+          "agenda_portaltickets_valparaiso_12ac57b46f0939eb",
+          "agenda_portaltickets_valparaiso_cbd066bda06101ca",
+          "agenda_trotamundos_38b6ae125db28b22cb44",
+          "agenda_portaltickets_valparaiso_87dc488a740eb551",
+          "agenda_3fe7db2eda716e34852b75bf",
+          "agenda_portaltickets_valparaiso_3287633c6721e3dc",
+          "agenda_6ebbcd6f04c1245b0c908ba9",
+          "agenda_portaltickets_valparaiso_f24c4de2f9873a0c",
+          "agenda_trotamundos_e16fc6d93354ba41e9b1",
+          "agenda_9850d719f4a623095bfff700",
+          "agenda_portaltickets_valparaiso_acf9b4f97635e613",
+          "agenda_trotamundos_c608277d7484e08d3bb8",
+          "agenda_16dbdb091c41f1a90717ab35",
+          "agenda_portaltickets_valparaiso_0a9845f9b106f0e8",
+          "agenda_fc4ffc2a0c13509cadd71cb1",
+          "agenda_trotamundos_ef815fcd49d20c5abb79",
+          "agenda_portaltickets_valparaiso_263750ec7d4f8ecb",
+          "agenda_portaltickets_valparaiso_fabb28f14000532f",
+          "agenda_878f50cc4a1d866f17556d52",
+          "agenda_portaltickets_valparaiso_e99bd07b085275a5",
+          "agenda_trotamundos_92db880e19efa581561f",
+          "agenda_49515352724271a7b9e7fc9d",
+          "agenda_trotamundos_0c5fab9d355f68ff1026",
+          "agenda_portaltickets_valparaiso_e09feca695ecf3cd",
+          "agenda_portaltickets_valparaiso_bee01b090b91f414",
+          "agenda_3abcac87d2e7f77b80bd94c9",
+          "agenda_portaltickets_valparaiso_c1834ca1d5d26760",
+          "agenda_trotamundos_5ca6ebfddd625d59e1bf",
+          "agenda_portaltickets_valparaiso_aaed00c529615ce8",
+          "agenda_portaltickets_valparaiso_40dbcfe1b931fd8c",
+          "agenda_portaltickets_valparaiso_34785fe80ce1c3d6",
+          "agenda_d8ec40944baa69699c7fe878",
+          "agenda_portaltickets_valparaiso_c919a1af083f29f7",
+          "agenda_portaltickets_valparaiso_bd70f43bf15cb18d",
+          "agenda_trotamundos_bdafff3df95abdaf1579",
+          "agenda_portaltickets_valparaiso_01df4a0b5bf20ee8",
+          "agenda_portaltickets_valparaiso_736f64b5d71b4c16",
+          "agenda_portaltickets_valparaiso_8b1efd8c2655dbc4",
+          "agenda_portaltickets_valparaiso_e5711f062725ae4d",
+          "agenda_3d26d294c61eab9cc0d28780",
+          "agenda_portaltickets_valparaiso_e7d821fc2b6c1a1d",
+          "agenda_portaltickets_valparaiso_953f38b072b3d30f",
+          "agenda_portaltickets_valparaiso_67fcf6c2e9d7c8ae",
+          "agenda_portaltickets_valparaiso_e7ea4b4a9f48cb2b",
+          "agenda_portaltickets_valparaiso_3531b96fe9b93a5d",
+          "agenda_portaltickets_valparaiso_9e934076bf977af5",
+          "agenda_portaltickets_valparaiso_d3e8fd05bd713cbe",
+          "agenda_portaltickets_valparaiso_93d712ad8a8b2117",
+          "agenda_5b39d4b6a5f270684794a4ad",
+          "agenda_baburizza_cea5769379084d5f59c6",
+          "agenda_69211fbb6583ae0c4f5f8320",
+          "agenda_f6647381f1d7d96eb2310366",
+          "agenda_594dc3fdc258edd0f6c190b0",
+          "agenda_9b60b4e309fd7b1d6d696379",
+          "agenda_0c0b66b104dfc14d0d53f4dc",
+          "agenda_3675588184f3dfeeb8ad5029",
+          "agenda_f34197002e1f0feb6ec0ef4f",
+          "agenda_d257654c0963bc5199320142",
+          "agenda_1fb0670e949fe3d00eb6bc36",
+          "agenda_fd4cba24b8a91a9a9e8f570d",
+          "agenda_d728a98ec247407b27df8f47",
+          "agenda_2c42b31c19d0a316297ffff6",
+          "agenda_fabc335aeeb932287df338b2",
+          "agenda_682737cbbf5a48ef8b8ebb8c",
+          "agenda_aa51c9032674fd7a94af7609",
+          "agenda_339db3c608f5c681e243015b",
+          "agenda_23aed5eceedc7b76e8df9289",
+          "agenda_6050ef3675dca6309cd31d2b",
+          "agenda_a3e68f365747660910f1fbf4",
+          "agenda_a9a0b21237bb5585076ffcc7",
+          "agenda_ed99fc63ab56e2ffffa456cb",
+          "agenda_10ba69e08963eace52ab8593"
+        ],
+        "origin": "cloudflare",
+        "presentation": [
+          {
+            "category": "exposiciones",
+            "id": "agenda_1854dfc03941d9be3045b35c",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_dcc2caef874cdf7de6edb8c3",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_a5db082cbcdabd233e52e0e8",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_29398e9c6c761cfd27a97d6c",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_5736246b853a952f51cdaf1a",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a9bf9027ce039a67f49eece5",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_1f61cfd63e862ef1fa0a19d3",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_8ef20a9b314089bb8e14d2b7",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_82b2bebc552fd5e36cfd16af",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_419476fe16a1f057893e0c5d",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_8fec85babee6817c14d4efb6",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_92d94cb5c6155222292a",
+            "section": "todos",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_13c43a72019432598002",
+            "section": "todos",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_0bbc1b52d4ad5bdc92ffc76c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a3040fec5e515c7b994fe8cc",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_87f9a18c0cb99e0e4986d472",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_280f7e9a869b876582bd",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_d8d33f071e6744ffa7d28237",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_c5a59d2ed011cefed562727b",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_691b277a9953a353e338d225",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_b928696098df053f2f8bf440",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_209b0f34825334d3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_94d54fa8ccffa86860de",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7004346fb529ac28",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_f711fa1a39930142",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_96fd58e202ee7d4133b68dc9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_12ac57b46f0939eb",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_cbd066bda06101ca",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_trotamundos_38b6ae125db28b22cb44",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_87dc488a740eb551",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_3fe7db2eda716e34852b75bf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_3287633c6721e3dc",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_6ebbcd6f04c1245b0c908ba9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_f24c4de2f9873a0c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_trotamundos_e16fc6d93354ba41e9b1",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_9850d719f4a623095bfff700",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_acf9b4f97635e613",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_c608277d7484e08d3bb8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_16dbdb091c41f1a90717ab35",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_0a9845f9b106f0e8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_fc4ffc2a0c13509cadd71cb1",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_ef815fcd49d20c5abb79",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_263750ec7d4f8ecb",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_fabb28f14000532f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_878f50cc4a1d866f17556d52",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e99bd07b085275a5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_trotamundos_92db880e19efa581561f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_49515352724271a7b9e7fc9d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_0c5fab9d355f68ff1026",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e09feca695ecf3cd",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_bee01b090b91f414",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_3abcac87d2e7f77b80bd94c9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_c1834ca1d5d26760",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_5ca6ebfddd625d59e1bf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_aaed00c529615ce8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_40dbcfe1b931fd8c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_34785fe80ce1c3d6",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_d8ec40944baa69699c7fe878",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_c919a1af083f29f7",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_bd70f43bf15cb18d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_bdafff3df95abdaf1579",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_01df4a0b5bf20ee8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_736f64b5d71b4c16",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_8b1efd8c2655dbc4",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e5711f062725ae4d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_3d26d294c61eab9cc0d28780",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e7d821fc2b6c1a1d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_portaltickets_valparaiso_953f38b072b3d30f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_67fcf6c2e9d7c8ae",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e7ea4b4a9f48cb2b",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_3531b96fe9b93a5d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_9e934076bf977af5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_d3e8fd05bd713cbe",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_93d712ad8a8b2117",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_5b39d4b6a5f270684794a4ad",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_cea5769379084d5f59c6",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_69211fbb6583ae0c4f5f8320",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f6647381f1d7d96eb2310366",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_594dc3fdc258edd0f6c190b0",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_9b60b4e309fd7b1d6d696379",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_0c0b66b104dfc14d0d53f4dc",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_3675588184f3dfeeb8ad5029",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f34197002e1f0feb6ec0ef4f",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_d257654c0963bc5199320142",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_1fb0670e949fe3d00eb6bc36",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_fd4cba24b8a91a9a9e8f570d",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_d728a98ec247407b27df8f47",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_2c42b31c19d0a316297ffff6",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_fabc335aeeb932287df338b2",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_682737cbbf5a48ef8b8ebb8c",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_aa51c9032674fd7a94af7609",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_339db3c608f5c681e243015b",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_23aed5eceedc7b76e8df9289",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_6050ef3675dca6309cd31d2b",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_a3e68f365747660910f1fbf4",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_a9a0b21237bb5585076ffcc7",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_ed99fc63ab56e2ffffa456cb",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "naturaleza-aire-libre",
+            "id": "agenda_10ba69e08963eace52ab8593",
+            "section": "todos",
+            "temporal": "always_available"
+          }
+        ],
+        "state": "todos"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "gijon",
+        "count": 16,
+        "ids": [
+          "agenda_gijon_f0ffe167dcb4882c",
+          "gijon_laboral_ciudad_cultura_474faaf048761a59",
+          "agenda_gijon_2f72e6e7421a107a",
+          "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+          "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+          "agenda_gijon_2acb3495a11bfccc",
+          "agenda_gijon_712bfa6ac855e2ba",
+          "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+          "gijon_gijon_arena_8ac9fd7584459fe7",
+          "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+          "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+          "gijon_laboral_centro_arte_de61cb2048c21ecb",
+          "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+          "agenda_gijon_6fb58f98d9761c56",
+          "agenda_gijon_98d5f4adbfb66753",
+          "agenda_gijon_6d1efd370091c858"
+        ],
+        "origin": "github-pages",
+        "presentation": [
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_f0ffe167dcb4882c",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_474faaf048761a59",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_2f72e6e7421a107a",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+            "section": "7-dias",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "cine",
+            "id": "agenda_gijon_2acb3495a11bfccc",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_712bfa6ac855e2ba",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_8ac9fd7584459fe7",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_de61cb2048c21ecb",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6fb58f98d9761c56",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_98d5f4adbfb66753",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6d1efd370091c858",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "7-dias"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "gijon",
+        "count": 10,
+        "ids": [
+          "agenda_gijon_f0ffe167dcb4882c",
+          "gijon_laboral_ciudad_cultura_474faaf048761a59",
+          "agenda_gijon_2f72e6e7421a107a",
+          "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+          "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+          "gijon_laboral_centro_arte_de61cb2048c21ecb",
+          "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+          "agenda_gijon_6fb58f98d9761c56",
+          "agenda_gijon_98d5f4adbfb66753",
+          "agenda_gijon_6d1efd370091c858"
+        ],
+        "origin": "github-pages",
+        "presentation": [
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_f0ffe167dcb4882c",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_474faaf048761a59",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_2f72e6e7421a107a",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+            "section": "hoy",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_de61cb2048c21ecb",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6fb58f98d9761c56",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_98d5f4adbfb66753",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6d1efd370091c858",
+            "section": "hoy",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "hoy"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "gijon",
+        "count": 69,
+        "ids": [
+          "agenda_gijon_f0ffe167dcb4882c",
+          "gijon_laboral_ciudad_cultura_474faaf048761a59",
+          "agenda_gijon_2f72e6e7421a107a",
+          "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+          "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+          "agenda_gijon_2acb3495a11bfccc",
+          "agenda_gijon_712bfa6ac855e2ba",
+          "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+          "gijon_gijon_arena_8ac9fd7584459fe7",
+          "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+          "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+          "agenda_gijon_152def98b3bf3ad6",
+          "gijon_laboral_ciudad_cultura_9b4b2a6860184ee2",
+          "gijon_el_huerto_gijon_c54f118bf2cd7f4a",
+          "gijon_teatro_albeniz_gijon_93b925293cf3a5c3",
+          "gijon_gijon_arena_1cb92fbfc25fcc13",
+          "gijon_el_huerto_gijon_a47af91d147d935a",
+          "gijon_laboral_ciudad_cultura_0dbb19b8f48513bf",
+          "gijon_gijon_arena_ff9ff19cf38f8ac5",
+          "agenda_gijon_44af6747ca0fe5aa",
+          "gijon_el_huerto_gijon_8fc630b3d8e88622",
+          "gijon_laboral_ciudad_cultura_95faed049fad7ba9",
+          "agenda_gijon_bfb915c4c56e12cd",
+          "gijon_teatro_albeniz_gijon_af9f7cc15d634bcb",
+          "agenda_gijon_7ef5df922bf3488f",
+          "agenda_gijon_a7ea4d654e50ca46",
+          "agenda_gijon_02d6541660505daf",
+          "agenda_gijon_94efa196197a9045",
+          "gijon_laboral_ciudad_cultura_09f8c0f320985e02",
+          "agenda_gijon_f9ef8cd806b6c154",
+          "gijon_el_huerto_gijon_bdc1eb1cb40092b2",
+          "agenda_gijon_f4d06c0e8cc7096e",
+          "gijon_laboral_ciudad_cultura_024e6e919d498307",
+          "agenda_gijon_7b1d24a963848ce3",
+          "agenda_gijon_fd5694a3606d6919",
+          "agenda_gijon_5c0278b94108389a",
+          "agenda_gijon_be488f34fadc97f3",
+          "gijon_laboral_ciudad_cultura_35d42210fbda93f5",
+          "gijon_laboral_ciudad_cultura_b2a8666b9d60b6fe",
+          "agenda_gijon_01a281b235f68fa5",
+          "gijon_el_huerto_gijon_00876cc5882f4138",
+          "gijon_laboral_ciudad_cultura_5a20255cb32ef651",
+          "agenda_gijon_8471d1487ef428a2",
+          "agenda_gijon_a45563a15689e609",
+          "agenda_gijon_d7519b0e555a8c5f",
+          "agenda_gijon_f71427692faf4b31",
+          "gijon_el_huerto_gijon_db290e8e9fb007e2",
+          "gijon_laboral_ciudad_cultura_b653534dd88bea31",
+          "agenda_gijon_456dad9a42c08f84",
+          "gijon_laboral_ciudad_cultura_08e11a234e0b6024",
+          "gijon_gijon_arena_de536c86f7ac2144",
+          "gijon_el_huerto_gijon_26353e452cd302d4",
+          "agenda_gijon_b64b5ed86c0b1b20",
+          "gijon_laboral_ciudad_cultura_7e143d059c27120b",
+          "gijon_laboral_ciudad_cultura_5ae5056634dd9513",
+          "gijon_laboral_ciudad_cultura_a06331fc6e92663c",
+          "gijon_laboral_ciudad_cultura_229d3806419a20b4",
+          "gijon_laboral_ciudad_cultura_ecf39bf6542d5e24",
+          "gijon_gijon_arena_67a184e4bad47b06",
+          "gijon_laboral_ciudad_cultura_8a21b57651be6fd7",
+          "gijon_gijon_arena_73aa4ff9d5786e79",
+          "gijon_laboral_ciudad_cultura_4ec1d6d29b9f7752",
+          "gijon_laboral_ciudad_cultura_312e78286078f0c5",
+          "gijon_laboral_ciudad_cultura_c3290c6e650368f9",
+          "gijon_laboral_centro_arte_de61cb2048c21ecb",
+          "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+          "agenda_gijon_6fb58f98d9761c56",
+          "agenda_gijon_98d5f4adbfb66753",
+          "agenda_gijon_6d1efd370091c858"
+        ],
+        "origin": "github-pages",
+        "presentation": [
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_f0ffe167dcb4882c",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_474faaf048761a59",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_2f72e6e7421a107a",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_6ccc4c8fc1e01454",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "gijon_camara_recinto_ferial_gijon_63f1e6158148ef61",
+            "section": "todos",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "cine",
+            "id": "agenda_gijon_2acb3495a11bfccc",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_712bfa6ac855e2ba",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_173a5d1fb70fd06c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_8ac9fd7584459fe7",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_656d98cb3a3d3314",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_2e0f6e9520967857",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_gijon_152def98b3bf3ad6",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_9b4b2a6860184ee2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_c54f118bf2cd7f4a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_93b925293cf3a5c3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_1cb92fbfc25fcc13",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_a47af91d147d935a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_0dbb19b8f48513bf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_ff9ff19cf38f8ac5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_44af6747ca0fe5aa",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_8fc630b3d8e88622",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_95faed049fad7ba9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_bfb915c4c56e12cd",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_teatro_albeniz_gijon_af9f7cc15d634bcb",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_7ef5df922bf3488f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_a7ea4d654e50ca46",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_02d6541660505daf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_94efa196197a9045",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_09f8c0f320985e02",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_f9ef8cd806b6c154",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_bdc1eb1cb40092b2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_f4d06c0e8cc7096e",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_024e6e919d498307",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_7b1d24a963848ce3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_fd5694a3606d6919",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_5c0278b94108389a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_be488f34fadc97f3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_35d42210fbda93f5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "gijon_laboral_ciudad_cultura_b2a8666b9d60b6fe",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_01a281b235f68fa5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_el_huerto_gijon_00876cc5882f4138",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_5a20255cb32ef651",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_gijon_8471d1487ef428a2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cine",
+            "id": "agenda_gijon_a45563a15689e609",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_d7519b0e555a8c5f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_f71427692faf4b31",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_db290e8e9fb007e2",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_b653534dd88bea31",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_456dad9a42c08f84",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_08e11a234e0b6024",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_de536c86f7ac2144",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_el_huerto_gijon_26353e452cd302d4",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_gijon_b64b5ed86c0b1b20",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_7e143d059c27120b",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_5ae5056634dd9513",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_a06331fc6e92663c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_229d3806419a20b4",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "gijon_laboral_ciudad_cultura_ecf39bf6542d5e24",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_67a184e4bad47b06",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_8a21b57651be6fd7",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_gijon_arena_73aa4ff9d5786e79",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_4ec1d6d29b9f7752",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_312e78286078f0c5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "gijon_laboral_ciudad_cultura_c3290c6e650368f9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_de61cb2048c21ecb",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "gijon_laboral_centro_arte_39eabbc5bd5344aa",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6fb58f98d9761c56",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_98d5f4adbfb66753",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_gijon_6d1efd370091c858",
+            "section": "todos",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "todos"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "valparaiso",
+        "count": 40,
+        "ids": [
+          "agenda_1854dfc03941d9be3045b35c",
+          "agenda_dcc2caef874cdf7de6edb8c3",
+          "agenda_a5db082cbcdabd233e52e0e8",
+          "agenda_29398e9c6c761cfd27a97d6c",
+          "agenda_5736246b853a952f51cdaf1a",
+          "agenda_a9bf9027ce039a67f49eece5",
+          "agenda_1f61cfd63e862ef1fa0a19d3",
+          "agenda_8ef20a9b314089bb8e14d2b7",
+          "agenda_82b2bebc552fd5e36cfd16af",
+          "agenda_419476fe16a1f057893e0c5d",
+          "agenda_8fec85babee6817c14d4efb6",
+          "agenda_baburizza_92d94cb5c6155222292a",
+          "agenda_baburizza_13c43a72019432598002",
+          "agenda_0bbc1b52d4ad5bdc92ffc76c",
+          "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+          "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+          "agenda_a3040fec5e515c7b994fe8cc",
+          "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+          "agenda_87f9a18c0cb99e0e4986d472",
+          "agenda_trotamundos_280f7e9a869b876582bd",
+          "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+          "agenda_d8d33f071e6744ffa7d28237",
+          "agenda_c5a59d2ed011cefed562727b",
+          "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+          "agenda_691b277a9953a353e338d225",
+          "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+          "agenda_b928696098df053f2f8bf440",
+          "agenda_portaltickets_valparaiso_209b0f34825334d3",
+          "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+          "agenda_trotamundos_94d54fa8ccffa86860de",
+          "agenda_portaltickets_valparaiso_7004346fb529ac28",
+          "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+          "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+          "agenda_portaltickets_valparaiso_f711fa1a39930142",
+          "agenda_5b39d4b6a5f270684794a4ad",
+          "agenda_baburizza_cea5769379084d5f59c6",
+          "agenda_69211fbb6583ae0c4f5f8320",
+          "agenda_f6647381f1d7d96eb2310366",
+          "agenda_594dc3fdc258edd0f6c190b0",
+          "agenda_9b60b4e309fd7b1d6d696379"
+        ],
+        "origin": "github-pages",
+        "presentation": [
+          {
+            "category": "exposiciones",
+            "id": "agenda_1854dfc03941d9be3045b35c",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_dcc2caef874cdf7de6edb8c3",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_a5db082cbcdabd233e52e0e8",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_29398e9c6c761cfd27a97d6c",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_5736246b853a952f51cdaf1a",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a9bf9027ce039a67f49eece5",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_1f61cfd63e862ef1fa0a19d3",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_8ef20a9b314089bb8e14d2b7",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_82b2bebc552fd5e36cfd16af",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_419476fe16a1f057893e0c5d",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_8fec85babee6817c14d4efb6",
+            "section": "7-dias",
+            "temporal": "today"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_92d94cb5c6155222292a",
+            "section": "7-dias",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_13c43a72019432598002",
+            "section": "7-dias",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_0bbc1b52d4ad5bdc92ffc76c",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a3040fec5e515c7b994fe8cc",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_87f9a18c0cb99e0e4986d472",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_280f7e9a869b876582bd",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_d8d33f071e6744ffa7d28237",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_c5a59d2ed011cefed562727b",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_691b277a9953a353e338d225",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_b928696098df053f2f8bf440",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_209b0f34825334d3",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_94d54fa8ccffa86860de",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7004346fb529ac28",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_f711fa1a39930142",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_5b39d4b6a5f270684794a4ad",
+            "section": "7-dias",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_cea5769379084d5f59c6",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_69211fbb6583ae0c4f5f8320",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f6647381f1d7d96eb2310366",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_594dc3fdc258edd0f6c190b0",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_9b60b4e309fd7b1d6d696379",
+            "section": "7-dias",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "7-dias"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "valparaiso",
+        "count": 18,
+        "ids": [
+          "agenda_1854dfc03941d9be3045b35c",
+          "agenda_dcc2caef874cdf7de6edb8c3",
+          "agenda_a5db082cbcdabd233e52e0e8",
+          "agenda_29398e9c6c761cfd27a97d6c",
+          "agenda_5736246b853a952f51cdaf1a",
+          "agenda_a9bf9027ce039a67f49eece5",
+          "agenda_1f61cfd63e862ef1fa0a19d3",
+          "agenda_8ef20a9b314089bb8e14d2b7",
+          "agenda_82b2bebc552fd5e36cfd16af",
+          "agenda_419476fe16a1f057893e0c5d",
+          "agenda_8fec85babee6817c14d4efb6",
+          "agenda_baburizza_92d94cb5c6155222292a",
+          "agenda_baburizza_13c43a72019432598002",
+          "agenda_baburizza_cea5769379084d5f59c6",
+          "agenda_69211fbb6583ae0c4f5f8320",
+          "agenda_f6647381f1d7d96eb2310366",
+          "agenda_594dc3fdc258edd0f6c190b0",
+          "agenda_9b60b4e309fd7b1d6d696379"
+        ],
+        "origin": "github-pages",
+        "presentation": [
+          {
+            "category": "exposiciones",
+            "id": "agenda_1854dfc03941d9be3045b35c",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_dcc2caef874cdf7de6edb8c3",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_a5db082cbcdabd233e52e0e8",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_29398e9c6c761cfd27a97d6c",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_5736246b853a952f51cdaf1a",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a9bf9027ce039a67f49eece5",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_1f61cfd63e862ef1fa0a19d3",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_8ef20a9b314089bb8e14d2b7",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_82b2bebc552fd5e36cfd16af",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_419476fe16a1f057893e0c5d",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_8fec85babee6817c14d4efb6",
+            "section": "hoy",
+            "temporal": "today"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_92d94cb5c6155222292a",
+            "section": "hoy",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_13c43a72019432598002",
+            "section": "hoy",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_cea5769379084d5f59c6",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_69211fbb6583ae0c4f5f8320",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f6647381f1d7d96eb2310366",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_594dc3fdc258edd0f6c190b0",
+            "section": "hoy",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_9b60b4e309fd7b1d6d696379",
+            "section": "hoy",
+            "temporal": "ongoing"
+          }
+        ],
+        "state": "hoy"
+      },
+      {
+        "at": "2026-11-08T18:05:00Z",
+        "city": "valparaiso",
+        "count": 107,
+        "ids": [
+          "agenda_1854dfc03941d9be3045b35c",
+          "agenda_dcc2caef874cdf7de6edb8c3",
+          "agenda_a5db082cbcdabd233e52e0e8",
+          "agenda_29398e9c6c761cfd27a97d6c",
+          "agenda_5736246b853a952f51cdaf1a",
+          "agenda_a9bf9027ce039a67f49eece5",
+          "agenda_1f61cfd63e862ef1fa0a19d3",
+          "agenda_8ef20a9b314089bb8e14d2b7",
+          "agenda_82b2bebc552fd5e36cfd16af",
+          "agenda_419476fe16a1f057893e0c5d",
+          "agenda_8fec85babee6817c14d4efb6",
+          "agenda_baburizza_92d94cb5c6155222292a",
+          "agenda_baburizza_13c43a72019432598002",
+          "agenda_0bbc1b52d4ad5bdc92ffc76c",
+          "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+          "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+          "agenda_a3040fec5e515c7b994fe8cc",
+          "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+          "agenda_87f9a18c0cb99e0e4986d472",
+          "agenda_trotamundos_280f7e9a869b876582bd",
+          "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+          "agenda_d8d33f071e6744ffa7d28237",
+          "agenda_c5a59d2ed011cefed562727b",
+          "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+          "agenda_691b277a9953a353e338d225",
+          "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+          "agenda_b928696098df053f2f8bf440",
+          "agenda_portaltickets_valparaiso_209b0f34825334d3",
+          "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+          "agenda_trotamundos_94d54fa8ccffa86860de",
+          "agenda_portaltickets_valparaiso_7004346fb529ac28",
+          "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+          "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+          "agenda_portaltickets_valparaiso_f711fa1a39930142",
+          "agenda_96fd58e202ee7d4133b68dc9",
+          "agenda_portaltickets_valparaiso_12ac57b46f0939eb",
+          "agenda_portaltickets_valparaiso_cbd066bda06101ca",
+          "agenda_trotamundos_38b6ae125db28b22cb44",
+          "agenda_portaltickets_valparaiso_87dc488a740eb551",
+          "agenda_3fe7db2eda716e34852b75bf",
+          "agenda_portaltickets_valparaiso_3287633c6721e3dc",
+          "agenda_6ebbcd6f04c1245b0c908ba9",
+          "agenda_portaltickets_valparaiso_f24c4de2f9873a0c",
+          "agenda_trotamundos_e16fc6d93354ba41e9b1",
+          "agenda_9850d719f4a623095bfff700",
+          "agenda_portaltickets_valparaiso_acf9b4f97635e613",
+          "agenda_trotamundos_c608277d7484e08d3bb8",
+          "agenda_16dbdb091c41f1a90717ab35",
+          "agenda_portaltickets_valparaiso_0a9845f9b106f0e8",
+          "agenda_fc4ffc2a0c13509cadd71cb1",
+          "agenda_trotamundos_ef815fcd49d20c5abb79",
+          "agenda_portaltickets_valparaiso_263750ec7d4f8ecb",
+          "agenda_portaltickets_valparaiso_fabb28f14000532f",
+          "agenda_878f50cc4a1d866f17556d52",
+          "agenda_portaltickets_valparaiso_e99bd07b085275a5",
+          "agenda_trotamundos_92db880e19efa581561f",
+          "agenda_49515352724271a7b9e7fc9d",
+          "agenda_trotamundos_0c5fab9d355f68ff1026",
+          "agenda_portaltickets_valparaiso_e09feca695ecf3cd",
+          "agenda_portaltickets_valparaiso_bee01b090b91f414",
+          "agenda_3abcac87d2e7f77b80bd94c9",
+          "agenda_portaltickets_valparaiso_c1834ca1d5d26760",
+          "agenda_trotamundos_5ca6ebfddd625d59e1bf",
+          "agenda_portaltickets_valparaiso_aaed00c529615ce8",
+          "agenda_portaltickets_valparaiso_40dbcfe1b931fd8c",
+          "agenda_portaltickets_valparaiso_34785fe80ce1c3d6",
+          "agenda_d8ec40944baa69699c7fe878",
+          "agenda_portaltickets_valparaiso_c919a1af083f29f7",
+          "agenda_portaltickets_valparaiso_bd70f43bf15cb18d",
+          "agenda_trotamundos_bdafff3df95abdaf1579",
+          "agenda_portaltickets_valparaiso_01df4a0b5bf20ee8",
+          "agenda_portaltickets_valparaiso_736f64b5d71b4c16",
+          "agenda_portaltickets_valparaiso_8b1efd8c2655dbc4",
+          "agenda_portaltickets_valparaiso_e5711f062725ae4d",
+          "agenda_3d26d294c61eab9cc0d28780",
+          "agenda_portaltickets_valparaiso_e7d821fc2b6c1a1d",
+          "agenda_portaltickets_valparaiso_953f38b072b3d30f",
+          "agenda_portaltickets_valparaiso_67fcf6c2e9d7c8ae",
+          "agenda_portaltickets_valparaiso_e7ea4b4a9f48cb2b",
+          "agenda_portaltickets_valparaiso_3531b96fe9b93a5d",
+          "agenda_portaltickets_valparaiso_9e934076bf977af5",
+          "agenda_portaltickets_valparaiso_d3e8fd05bd713cbe",
+          "agenda_portaltickets_valparaiso_93d712ad8a8b2117",
+          "agenda_5b39d4b6a5f270684794a4ad",
+          "agenda_baburizza_cea5769379084d5f59c6",
+          "agenda_69211fbb6583ae0c4f5f8320",
+          "agenda_f6647381f1d7d96eb2310366",
+          "agenda_594dc3fdc258edd0f6c190b0",
+          "agenda_9b60b4e309fd7b1d6d696379",
+          "agenda_0c0b66b104dfc14d0d53f4dc",
+          "agenda_3675588184f3dfeeb8ad5029",
+          "agenda_f34197002e1f0feb6ec0ef4f",
+          "agenda_d257654c0963bc5199320142",
+          "agenda_1fb0670e949fe3d00eb6bc36",
+          "agenda_fd4cba24b8a91a9a9e8f570d",
+          "agenda_d728a98ec247407b27df8f47",
+          "agenda_2c42b31c19d0a316297ffff6",
+          "agenda_fabc335aeeb932287df338b2",
+          "agenda_682737cbbf5a48ef8b8ebb8c",
+          "agenda_aa51c9032674fd7a94af7609",
+          "agenda_339db3c608f5c681e243015b",
+          "agenda_23aed5eceedc7b76e8df9289",
+          "agenda_6050ef3675dca6309cd31d2b",
+          "agenda_a3e68f365747660910f1fbf4",
+          "agenda_a9a0b21237bb5585076ffcc7",
+          "agenda_ed99fc63ab56e2ffffa456cb",
+          "agenda_10ba69e08963eace52ab8593"
+        ],
+        "origin": "github-pages",
+        "presentation": [
+          {
+            "category": "exposiciones",
+            "id": "agenda_1854dfc03941d9be3045b35c",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_dcc2caef874cdf7de6edb8c3",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_a5db082cbcdabd233e52e0e8",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_29398e9c6c761cfd27a97d6c",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_5736246b853a952f51cdaf1a",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a9bf9027ce039a67f49eece5",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "literatura",
+            "id": "agenda_1f61cfd63e862ef1fa0a19d3",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "charlas-conferencias",
+            "id": "agenda_8ef20a9b314089bb8e14d2b7",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_82b2bebc552fd5e36cfd16af",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_419476fe16a1f057893e0c5d",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_8fec85babee6817c14d4efb6",
+            "section": "todos",
+            "temporal": "today"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_92d94cb5c6155222292a",
+            "section": "todos",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_13c43a72019432598002",
+            "section": "todos",
+            "temporal": "ending_soon"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_0bbc1b52d4ad5bdc92ffc76c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a1a48cf42fa98e01",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_a3040fec5e515c7b994fe8cc",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e8fe6f7733ec1f25",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_87f9a18c0cb99e0e4986d472",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_280f7e9a869b876582bd",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b5a4f5c71757e255",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_d8d33f071e6744ffa7d28237",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_c5a59d2ed011cefed562727b",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_e10e1e769dc1fdd8ef6a",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_691b277a9953a353e338d225",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_0d35bc15fcc60348",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_b928696098df053f2f8bf440",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_209b0f34825334d3",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_b18a1868a2676f1c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_94d54fa8ccffa86860de",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_7004346fb529ac28",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_a78fe328ffe43d3f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_db4f0fee15f37b53",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_f711fa1a39930142",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_96fd58e202ee7d4133b68dc9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_12ac57b46f0939eb",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_cbd066bda06101ca",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_trotamundos_38b6ae125db28b22cb44",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_87dc488a740eb551",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_3fe7db2eda716e34852b75bf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_3287633c6721e3dc",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_6ebbcd6f04c1245b0c908ba9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_f24c4de2f9873a0c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_trotamundos_e16fc6d93354ba41e9b1",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_9850d719f4a623095bfff700",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_acf9b4f97635e613",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_c608277d7484e08d3bb8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_16dbdb091c41f1a90717ab35",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_0a9845f9b106f0e8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_fc4ffc2a0c13509cadd71cb1",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_ef815fcd49d20c5abb79",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_263750ec7d4f8ecb",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_fabb28f14000532f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_878f50cc4a1d866f17556d52",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e99bd07b085275a5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_trotamundos_92db880e19efa581561f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_49515352724271a7b9e7fc9d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_0c5fab9d355f68ff1026",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e09feca695ecf3cd",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_portaltickets_valparaiso_bee01b090b91f414",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "teatro",
+            "id": "agenda_3abcac87d2e7f77b80bd94c9",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_c1834ca1d5d26760",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_5ca6ebfddd625d59e1bf",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_aaed00c529615ce8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_40dbcfe1b931fd8c",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_34785fe80ce1c3d6",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_d8ec40944baa69699c7fe878",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_c919a1af083f29f7",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_bd70f43bf15cb18d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_trotamundos_bdafff3df95abdaf1579",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_01df4a0b5bf20ee8",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_736f64b5d71b4c16",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_8b1efd8c2655dbc4",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e5711f062725ae4d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_3d26d294c61eab9cc0d28780",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e7d821fc2b6c1a1d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "ferias-vida-local",
+            "id": "agenda_portaltickets_valparaiso_953f38b072b3d30f",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_67fcf6c2e9d7c8ae",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_e7ea4b4a9f48cb2b",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_3531b96fe9b93a5d",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_9e934076bf977af5",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_d3e8fd05bd713cbe",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "musica",
+            "id": "agenda_portaltickets_valparaiso_93d712ad8a8b2117",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "cursos-talleres-campus",
+            "id": "agenda_5b39d4b6a5f270684794a4ad",
+            "section": "todos",
+            "temporal": "upcoming"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_baburizza_cea5769379084d5f59c6",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_69211fbb6583ae0c4f5f8320",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f6647381f1d7d96eb2310366",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_594dc3fdc258edd0f6c190b0",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_9b60b4e309fd7b1d6d696379",
+            "section": "todos",
+            "temporal": "ongoing"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_0c0b66b104dfc14d0d53f4dc",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_3675588184f3dfeeb8ad5029",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_f34197002e1f0feb6ec0ef4f",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_d257654c0963bc5199320142",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_1fb0670e949fe3d00eb6bc36",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_fd4cba24b8a91a9a9e8f570d",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_d728a98ec247407b27df8f47",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_2c42b31c19d0a316297ffff6",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_fabc335aeeb932287df338b2",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_682737cbbf5a48ef8b8ebb8c",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_aa51c9032674fd7a94af7609",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_339db3c608f5c681e243015b",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_23aed5eceedc7b76e8df9289",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_6050ef3675dca6309cd31d2b",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_a3e68f365747660910f1fbf4",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_a9a0b21237bb5585076ffcc7",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "exposiciones",
+            "id": "agenda_ed99fc63ab56e2ffffa456cb",
+            "section": "todos",
+            "temporal": "always_available"
+          },
+          {
+            "category": "naturaleza-aire-libre",
+            "id": "agenda_10ba69e08963eace52ab8593",
+            "section": "todos",
+            "temporal": "always_available"
+          }
+        ],
+        "state": "todos"
+      }
+    ]
+  },
+  "workflow": {
+    "repository": "carlosggar-arch/agenda-cultural-valparaiso-vina",
+    "run_attempt": "1",
+    "run_id": "42508064233",
+    "workflow": "Publish and production verification"
+  }
+}
