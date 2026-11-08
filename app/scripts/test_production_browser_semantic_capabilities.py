@@ -113,20 +113,45 @@ class ProductionBrowserSemanticCapabilityTests(unittest.TestCase):
         selected = select_valpo_semantic_cases(dataset(
             event("theatre", "teatro", end="2026-11-22"), book), reference=current)
         self.assertEqual(selected[1]["id"], "book")
-        with self.assertRaisesRegex(SystemExit, "CAPABILITY_MISSING category=literatura"):
-            select_valpo_semantic_cases(dataset(
-                event("theatre", "teatro", end="2026-11-22"), book),
-                reference=datetime(2026, 9, 1, 4, 0, tzinfo=timezone.utc))
+        selected_after = select_valpo_semantic_cases(dataset(
+            event("theatre", "teatro", end="2026-11-22"), book),
+            reference=datetime(2026, 9, 1, 4, 0, tzinfo=timezone.utc))
+        self.assertTrue(selected_after[1]["absence"])
 
     def test_empty_positive_coverage_fails_closed(self) -> None:
         with self.assertRaisesRegex(SystemExit, "NO_ACTIVE_CAPABILITIES"):
             select_valpo_semantic_cases(dataset(), reference=NOW)
 
-    def test_expired_present_category_cannot_be_claimed_absent(self) -> None:
+    def test_expired_category_requires_negative_dom_evidence(self) -> None:
+        selected = select_valpo_semantic_cases(dataset(
+            event("theatre", "teatro", end="2026-11-22"),
+            event("expired", "literatura", end="2026-08-28")), reference=NOW)
+        self.assertEqual(selected[1], {
+            "category_id": "literatura", "category_label": "Literatura", "absence": True})
+        with self.assertRaisesRegex(SystemExit, "ABSENT_CATEGORY_RENDERED"):
+            assert_absent_category_inventory(selected, [{"id": "stale", "category": "literatura"}])
+
+    def test_unknown_schedule_does_not_count_as_expired(self) -> None:
+        unknown = event("unknown", "literatura", end="")
+        unknown["schedule"] = {"timezone": "America/Santiago", "start": None, "end": None}
         with self.assertRaisesRegex(SystemExit, "CAPABILITY_MISSING category=literatura"):
             select_valpo_semantic_cases(dataset(
-                event("theatre", "teatro", end="2026-11-22"),
-                event("expired", "literatura", end="2026-08-28")), reference=NOW)
+                event("theatre", "teatro", end="2026-11-22"), unknown), reference=NOW)
+
+    def test_future_unverified_event_still_blocks_certification(self) -> None:
+        book = event("unverified", "literatura", end="2026-11-22")
+        book["links"]["official"] = ""
+        with self.assertRaisesRegex(SystemExit, "CAPABILITY_MISSING category=literatura"):
+            select_valpo_semantic_cases(dataset(
+                event("theatre", "teatro", end="2026-11-22"), book), reference=NOW)
+
+    def test_november_festival_past_show_has_negative_fixture(self) -> None:
+        now = datetime(2026, 11, 8, 17, 37, tzinfo=timezone.utc)
+        book = event("festival-book", "literatura", end="")
+        book["schedule"].update(start="2026-11-08T12:30:00-03:00", end=None)
+        selected = select_valpo_semantic_cases(dataset(
+            event("theatre", "teatro", end="2026-11-22"), book), reference=now)
+        self.assertTrue(selected[1]["absence"])
 
     def test_rendered_absent_category_fails_closed(self) -> None:
         absent = [{"category_id": "literatura", "absence": True}]
