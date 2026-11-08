@@ -56,6 +56,34 @@ def _event_active_until(
     return max(future) if future else None
 
 
+def _known_expired(event: dict[str, object], reference: datetime, *, default_timezone: str) -> bool:
+    """Accept only provably past sessions, never unknown dates, as absent."""
+    schedule = event.get("schedule") or {}
+    if not isinstance(schedule, dict):
+        return False
+    try:
+        zone = ZoneInfo(str(schedule.get("timezone") or default_timezone))
+    except Exception:
+        return False
+    boundaries = []
+    for occurrence in schedule.get("occurrences") or []:
+        if not isinstance(occurrence, dict):
+            return False
+        raw = occurrence.get("end") or occurrence.get("start")
+        if raw:
+            value = _parse_instant(raw, zone, end_of_day=True)
+            if value is None:
+                return False
+            boundaries.append(value)
+    for raw in (schedule.get("end"), schedule.get("start")):
+        if raw:
+            value = _parse_instant(raw, zone, end_of_day=True)
+            if value is None:
+                return False
+            boundaries.append(value)
+    return bool(boundaries) and max(boundaries) < reference
+
+
 def projected_public_title(event: dict[str, object]) -> str:
     """Evaluate the snapshot's reviewed interactive title projection, never normalize observed DOM.
 
@@ -115,9 +143,15 @@ def select_category_semantic_cases(
     selected = []
     for category_id in category_labels:
         category_rows = [event for event, category in categorized if category == category_id]
-        if verify_absent and not category_rows:
-            # Authenticated byte-identical datasets supply a zero inventory, not
-            # permission to waive a positive case with invalid or expired rows.
+        if verify_absent and (
+            not category_rows or all(
+                _known_expired(event, effective, default_timezone=default_timezone)
+                for event in category_rows
+            )
+        ):
+            # A category containing only demonstrably expired functions has
+            # no active positive fixture. Require negative DOM proof on both
+            # WEB and PWA, across both origins. Unknown dates remain blockers.
             selected.append({"category_id": category_id,
                              "category_label": category_labels[category_id], "absence": True})
             continue
