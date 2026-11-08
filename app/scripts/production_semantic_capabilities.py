@@ -28,6 +28,12 @@ def _parse_instant(value: object, zone: ZoneInfo, *, end_of_day: bool = False) -
         parsed = datetime.combine(parsed.date(), time.max if end_of_day else time.min)
     if parsed.tzinfo is None:
         parsed = parsed.replace(tzinfo=zone)
+    if end_of_day:
+        # Runtime keeps a dated event visible through the final LOCAL day,
+        # including a timestamped start with no explicit closing time.
+        # The semantic browser probe must use the same visibility boundary.
+        local_day = parsed.astimezone(zone).date()
+        parsed = datetime.combine(local_day, time.max, tzinfo=zone)
     return parsed.astimezone(timezone.utc)
 
 
