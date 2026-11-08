@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "12371a3a2ee0132a76f8e4ecea10ef6f2fb19eb6adc12c425665eb8c8be41dd5",
-  "generated_at": "2026-11-08T16:35:08Z",
+  "fingerprint": "a6fcad04d77bbafef0b1a69a31d91fddde40f081bb657f40f649058c26ca5966",
+  "generated_at": "2026-11-08T22:55:46Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -335,6 +335,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::cineartevina cl": {
+      "category_distribution": {
+        "cine": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cine",
+      "dominant_share": 1.0,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-wildwood-sub-2026-cine-arte-vina-del-mar",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::cultura pucv": {
       "category_distribution": {
         "musica": 1.0
@@ -358,6 +371,19 @@
       "source_name": "Cultura USM",
       "source_url": "https://teatrovina.cl/evento/play-una-travesia-geek/",
       "total": 6,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::deportes vina del mar": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Deportes Viña del Mar",
+      "source_url": "https://visitavina.munivina.cl/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -428,30 +454,31 @@
     },
     "valparaiso::parque cultural de valparaiso": {
       "category_distribution": {
-        "exposiciones": 0.666667,
-        "teatro": 0.333333
+        "exposiciones": 0.5,
+        "musica": 0.25,
+        "teatro": 0.25
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.666667,
+      "dominant_share": 0.5,
       "source_name": "Parque Cultural de Valparaíso",
       "source_url": "https://parquecultural.cl/events/exposicion-contar-el-maritorio/",
-      "total": 3,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "ferias-vida-local": 0.02381,
-        "musica": 0.880952,
-        "teatro": 0.095238
+        "ferias-vida-local": 0.023256,
+        "musica": 0.883721,
+        "teatro": 0.093023
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.880952,
+      "dominant_share": 0.883721,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/moralucayconciertodelanzamientobajosietellaves",
-      "total": 42,
+      "total": 43,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -591,14 +618,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "c72e91ba2844ecdb9d30219fd9bf808392151c93",
+  "source_ref": "b2a633b9e38a92160f336c6a7b090dca7151572b",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 42,
-    "total_events": 396,
+    "source_count": 44,
+    "total_events": 400,
     "unclassified_count": 11,
-    "unclassified_rate": 0.027778
+    "unclassified_rate": 0.0275
   },
   "unclassified_queue": [
     {
