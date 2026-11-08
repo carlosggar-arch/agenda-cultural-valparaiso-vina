@@ -145,13 +145,20 @@ class ProductionBrowserSemanticCapabilityTests(unittest.TestCase):
             select_valpo_semantic_cases(dataset(
                 event("theatre", "teatro", end="2026-11-22"), book), reference=NOW)
 
-    def test_november_festival_past_show_has_negative_fixture(self) -> None:
+    def test_november_festival_remains_visible_to_end_of_local_day(self) -> None:
+        # At 14:37 in Santiago the 12:30 talk is STARTED, but WEB/PWA
+        # intentionally retain it under Todos until the local day ends.
         now = datetime(2026, 11, 8, 17, 37, tzinfo=timezone.utc)
         book = event("festival-book", "literatura", end="")
         book["schedule"].update(start="2026-11-08T12:30:00-03:00", end=None)
-        selected = select_valpo_semantic_cases(dataset(
-            event("theatre", "teatro", end="2026-11-22"), book), reference=now)
-        self.assertTrue(selected[1]["absence"])
+        source = dataset(event("theatre", "teatro", end="2026-11-22"), book)
+        selected = select_valpo_semantic_cases(source, reference=now)
+        self.assertEqual(selected[1]["id"], "festival-book")
+        # Just after midnight the following Santiago day, require a negative
+        # DOM check instead of fabricating a future literature fixture.
+        tomorrow = datetime(2026, 11, 9, 3, 1, tzinfo=timezone.utc)
+        expired = select_valpo_semantic_cases(source, reference=tomorrow)
+        self.assertTrue(expired[1]["absence"])
 
     def test_rendered_absent_category_fails_closed(self) -> None:
         absent = [{"category_id": "literatura", "absence": True}]
