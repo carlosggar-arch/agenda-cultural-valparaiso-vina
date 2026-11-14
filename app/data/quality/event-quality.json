@@ -1,60 +1,60 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-14T11:02:25+00:00",
+  "generated_at": "2026-11-14T12:38:11+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-11-14",
-      "generated_at": "2026-11-14T11:02:23+00:00",
+      "generated_at": "2026-11-14T12:38:10+00:00",
       "summary": {
-        "total_events": 159,
-        "average_quality_score": 89.6,
+        "total_events": 167,
+        "average_quality_score": 89.3,
         "quality_class": "correct",
-        "sources_catalogued": 65,
-        "sources_producing": 32,
+        "sources_catalogued": 66,
+        "sources_producing": 33,
         "sources_zero": 33,
         "review_priority_zero_sources": 33,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 40.3,
+        "top3_source_share_pct": 38.3,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 0
       },
       "field_coverage": {
-        "date_pct": 88.1,
-        "time_pct": 82.4,
+        "date_pct": 88.6,
+        "time_pct": 80.8,
         "venue_pct": 100.0,
-        "image_pct": 57.9,
+        "image_pct": 55.1,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 71.7,
-        "price_known_pct": 86.2
+        "official_source_pct": 73.1,
+        "price_known_pct": 86.8
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
           "count": 62,
-          "share_pct": 39.0,
+          "share_pct": 37.1,
+          "underrepresented": false
+        },
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones",
+          "count": 34,
+          "share_pct": 20.4,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 30,
-          "share_pct": 18.9,
-          "underrepresented": false
-        },
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones",
-          "count": 29,
-          "share_pct": 18.2,
+          "share_pct": 18.0,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro y danza",
-          "count": 22,
+          "count": 23,
           "share_pct": 13.8,
           "underrepresented": false
         },
@@ -62,21 +62,28 @@
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 7,
-          "share_pct": 4.4,
+          "share_pct": 4.2,
           "underrepresented": true
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 6,
-          "share_pct": 3.8,
+          "share_pct": 3.6,
           "underrepresented": true
         },
         {
           "id": "literatura",
           "label": "Literatura",
           "count": 2,
-          "share_pct": 1.3,
+          "share_pct": 1.2,
+          "underrepresented": true
+        },
+        {
+          "id": "otros",
+          "label": "Otros panoramas",
+          "count": 2,
+          "share_pct": 1.2,
           "underrepresented": true
         },
         {
@@ -90,13 +97,13 @@
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 105,
-          "share_pct": 66.0
+          "count": 112,
+          "share_pct": 67.1
         },
         {
           "area": "Viña del Mar",
-          "count": 54,
-          "share_pct": 34.0
+          "count": 55,
+          "share_pct": 32.9
         }
       ],
       "coverage_gaps": {
@@ -104,6 +111,7 @@
           "ferias-gastronomia",
           "cursos-talleres",
           "literatura",
+          "otros",
           "naturaleza-deportes"
         ],
         "source_concentration_high": false,
@@ -147,7 +155,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 57.9,
+        "relevant_image_pct": 55.1,
         "removed_events": {}
       },
       "sources": [
@@ -362,6 +370,57 @@
           "verified_inactive": false
         },
         {
+          "id": "mhnvalpo",
+          "name": "Museo de Historia Natural de Valparaíso",
+          "count": 7,
+          "quality_score": 80.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 71.4,
+            "time_pct": 28.6,
+            "venue_pct": 100.0,
+            "image_pct": 71.4,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 71.4
+          },
+          "categories": {
+            "exposiciones": 5,
+            "otros": 2
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "biav_valpo",
+          "name": "BIAV",
+          "count": 5,
+          "quality_score": 82.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 20.0,
+            "venue_pct": 100.0,
+            "image_pct": 0.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "exposiciones": 5
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "cultura_usm",
           "name": "Cultura USM",
           "count": 5,
@@ -409,31 +468,6 @@
           "categories": {
             "ferias-gastronomia": 4,
             "musica": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "mhnvalpo",
-          "name": "Museo de Historia Natural de Valparaíso",
-          "count": 5,
-          "quality_score": 76.0,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 60.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 60.0
-          },
-          "categories": {
-            "exposiciones": 5
           },
           "verified_inactive": false
         },
@@ -512,6 +546,31 @@
           "categories": {
             "teatro": 2,
             "cine": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "teatromuseo",
+          "name": "TeatroMuseo",
+          "count": 3,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 0.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "teatro": 3
           },
           "verified_inactive": false
         },
@@ -698,31 +757,6 @@
         {
           "id": "sala_secreta",
           "name": "Sala Secreta",
-          "count": 2,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 0.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "teatro": 2
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "teatromuseo",
-          "name": "TeatroMuseo",
           "count": 2,
           "quality_score": 90.0,
           "quality_class": "excellent",

@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-11-14T11:02:32+00:00",
+  "generated_at": "2026-11-14T12:38:19+00:00",
   "publication_date": "2026-11-14",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 157,
-    "events": 156,
+    "total": 165,
+    "events": 164,
     "courses": 0,
     "flexible_offers": 1,
     "programs": 0
@@ -146,6 +146,108 @@
       },
       "editorial": {
         "venue_hours_enriched": true
+      }
+    },
+    {
+      "title": "Paraíso Perdido",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-10-16",
+        "end": "2026-12-31",
+        "timezone": "America/Santiago",
+        "display_text": "2026-10-16",
+        "occurrences": [
+          {
+            "start": "2026-10-16",
+            "end": "2026-12-31"
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function"
+      },
+      "location": {
+        "venue": "Fundación Santos Chávez",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": "Cajilla 811, Barrio Puerto",
+        "online": false,
+        "venue_id": null,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar acceso"
+      },
+      "links": {
+        "official": "https://biav.cl/evento/santos-chavez-el-paraiso-perdido/",
+        "source": "https://biav.cl/evento/santos-chavez-el-paraiso-perdido/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "BIAV",
+      "source_id": "biav_valpo",
+      "source_name": "BIAV",
+      "source_url": "https://biav.cl/evento/santos-chavez-el-paraiso-perdido/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Exposición Paraíso Perdido, desde el 16 de octubre hasta el 31 de diciembre de 2026.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_e353566591e688b53938efdf",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "exposiciones",
+            "label": "Exposiciones e inauguraciones"
+          },
+          "source_id": "biav_valpo",
+          "source_url": "https://biav.cl/evento/santos-chavez-el-paraiso-perdido",
+          "start": "2026-10-16",
+          "function_id": "source-slot-1f042121f5b0427cf89a176c",
+          "evidence_url": "https://biav.cl/evento/santos-chavez-el-paraiso-perdido"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "exposiciones",
+          "label": "Exposiciones e inauguraciones"
+        }
       }
     },
     {
@@ -767,6 +869,108 @@
       }
     },
     {
+      "title": "Calamina — Renato Órdenes, Nicholas Jackson y Carlos Silva",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-07",
+        "end": "2026-11-27",
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-07",
+        "occurrences": [
+          {
+            "start": "2026-11-07",
+            "end": "2026-11-27"
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function"
+      },
+      "location": {
+        "venue": "Espacio La Compañía",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": "Eusebio Lillo 409, Barrio El Almendral",
+        "online": false,
+        "venue_id": null,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar acceso"
+      },
+      "links": {
+        "official": "https://biav.cl/evento/calamina/",
+        "source": "https://biav.cl/evento/calamina/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "BIAV",
+      "source_id": "biav_valpo",
+      "source_name": "BIAV",
+      "source_url": "https://biav.cl/evento/calamina/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Exposición de la Bienal Internacional de Artes de Valparaíso, del 7 al 27 de noviembre.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_b81a8b2355a4089bf0d804fd",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "exposiciones",
+            "label": "Exposiciones e inauguraciones"
+          },
+          "source_id": "biav_valpo",
+          "source_url": "https://biav.cl/evento/calamina",
+          "start": "2026-11-07",
+          "function_id": "source-slot-276e47efa2c7a4dfc14f317b",
+          "evidence_url": "https://biav.cl/evento/calamina"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "exposiciones",
+          "label": "Exposiciones e inauguraciones"
+        }
+      }
+    },
+    {
       "id": "agenda_8fec85babee6817c14d4efb6",
       "title": "Escuelita Exploradores BROTES DE ARTE",
       "event_type": "event",
@@ -944,6 +1148,213 @@
       "source_id": "valpocultura"
     },
     {
+      "title": "Matta: Memorias de Guerra",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-13T10:00:00-03:00",
+        "end": "2026-12-06",
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-13 · 10:00",
+        "occurrences": [
+          {
+            "start": "2026-11-13T10:00:00-03:00",
+            "end": "2026-12-06"
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function",
+        "opening_time": "10:00",
+        "closing_time": "18:30",
+        "hours_confidence": "explicit"
+      },
+      "location": {
+        "venue": "Parque Cultural de Valparaíso",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": "Calle Cumming 590, Cerro Cárcel",
+        "online": false,
+        "venue_id": "parque-cultural-valparaiso",
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 3000,
+        "display_text": "Residentes $1.000 + cargo · extranjeros $3.000 · estudiantes, menores y otros públicos liberados"
+      },
+      "links": {
+        "official": "https://biav.cl/evento/matta-memorias-de-guerra/",
+        "source": "https://biav.cl/evento/matta-memorias-de-guerra/",
+        "tickets": "https://portaldisc.com/evento/matta-memorias-de-guerra-pcdv",
+        "registration": null
+      },
+      "organizer": "BIAV y Parque Cultural de Valparaíso",
+      "source_id": "biav_valpo",
+      "source_name": "BIAV y Parque Cultural de Valparaíso",
+      "source_url": "https://biav.cl/evento/matta-memorias-de-guerra/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Muestra de grabados de Roberto Matta. Abierta martes a domingo 10:00–18:30 hasta el 6 de diciembre; entrada liberada para estudiantes universitarios, menores, personas mayores y personas con discapacidad según la ticketera oficial.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_d1114088c258eac1ce6a852c",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "exposiciones",
+            "label": "Exposiciones e inauguraciones"
+          },
+          "source_id": "biav_valpo",
+          "source_url": "https://biav.cl/evento/matta-memorias-de-guerra",
+          "start": "2026-11-13T10:00:00-03:00",
+          "function_id": "source-slot-12442fcf9a52a14de43568a0",
+          "evidence_url": "https://biav.cl/evento/matta-memorias-de-guerra"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "exposiciones",
+          "label": "Exposiciones e inauguraciones"
+        }
+      }
+    },
+    {
+      "title": "PALABRARMAS — Cecilia Vicuña",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-14",
+        "end": "2027-01-10",
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-14 al 2027-01-10",
+        "occurrences": [
+          {
+            "start": "2026-11-14",
+            "end": "2027-01-10"
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function"
+      },
+      "location": {
+        "venue": "Museo Universitario del Grabado",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": "Lautaro Rosas 485, Cerro Alegre",
+        "online": false,
+        "venue_id": null,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar acceso"
+      },
+      "links": {
+        "official": "https://biav.cl/evento/palabrarmas/",
+        "source": "https://biav.cl/evento/palabrarmas/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "BIAV",
+      "source_id": "biav_valpo",
+      "source_name": "BIAV",
+      "source_url": "https://biav.cl/evento/palabrarmas/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Exposición de Cecilia Vicuña, curaduría José de Nordenflycht. Desde el 14 de noviembre de 2026 al 10 de enero de 2027.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_b8615683c34be8a48af60a5e",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "exposiciones",
+            "label": "Exposiciones e inauguraciones"
+          },
+          "source_id": "biav_valpo",
+          "source_url": "https://biav.cl/evento/palabrarmas",
+          "start": "2026-11-14",
+          "function_id": "source-slot-3a0997a58db32dfbf611d0e0",
+          "evidence_url": "https://biav.cl/evento/palabrarmas"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "exposiciones",
+          "label": "Exposiciones e inauguraciones"
+        }
+      }
+    },
+    {
       "title": "Primera Jornada Cultural Casa Prisma",
       "event_type": "event",
       "primary_category": {
@@ -1045,6 +1456,169 @@
           "id": "ferias-vida-local",
           "label": "Ferias y vida local"
         }
+      }
+    },
+    {
+      "title": "El mar nos sostiene — Juan Esteban Reyes",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-14",
+        "end": "2027-02-07",
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-14 al 2027-02-07",
+        "occurrences": [
+          {
+            "start": "2026-11-14",
+            "end": "2027-02-07"
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function",
+        "venue_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "17:30",
+          "display_text": "Martes a domingo · 10:00–17:30",
+          "reference_date": "2026-11-14",
+          "is_open_on_reference_date": true,
+          "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+          "source_name": "Visita Viña / Municipalidad de Viña del Mar",
+          "verified_at": "2026-08-17",
+          "hours_confidence": "official_venue_schedule"
+        },
+        "opening_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "17:30",
+          "display_text": "Martes a domingo · 10:00–17:30",
+          "reference_date": "2026-11-14",
+          "is_open_on_reference_date": true,
+          "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+          "source_name": "Visita Viña / Municipalidad de Viña del Mar",
+          "verified_at": "2026-08-17"
+        },
+        "opening_time": "10:00",
+        "closing_time": "17:30",
+        "hours_confidence": "official_venue_schedule"
+      },
+      "location": {
+        "venue": "Museo Palacio Rioja",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "address": "Quillota 214, Viña del Mar",
+        "online": false,
+        "venue_id": "museo-palacio-rioja",
+        "latitude": null,
+        "longitude": null,
+        "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+Palacio+Rioja%2C+Quillota+214%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
+        "verification": {
+          "status": "verified",
+          "method": "canonical_venue_registry",
+          "venue_id": "museo-palacio-rioja",
+          "official_name": "Museo Palacio Rioja",
+          "verified_at": "2026-10-03"
+        }
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar acceso"
+      },
+      "links": {
+        "official": "https://biav.cl/evento/el-mar-nos-sostiene/",
+        "source": "https://biav.cl/evento/el-mar-nos-sostiene/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "BIAV",
+      "source_id": "biav_valpo",
+      "source_name": "BIAV",
+      "source_url": "https://biav.cl/evento/el-mar-nos-sostiene/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Exposición de Juan Esteban Reyes, Sala de Exposiciones Temporales, del 14 de noviembre de 2026 al 7 de febrero de 2027.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_f66a594058661602bd7f174a",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "exposiciones",
+            "label": "Exposiciones e inauguraciones"
+          },
+          "source_id": "biav_valpo",
+          "source_url": "https://biav.cl/evento/el-mar-nos-sostiene",
+          "start": "2026-11-14",
+          "function_id": "source-slot-b6fb3beb65a85dd150435b60",
+          "evidence_url": "https://biav.cl/evento/el-mar-nos-sostiene"
+        },
+        "verified_venue": {
+          "method": "canonical_venue_registry",
+          "venue_id": "museo-palacio-rioja",
+          "city": "Viña del Mar",
+          "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+          "verified_at": "2026-10-03",
+          "address": "Quillota 214, Viña del Mar"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "exposiciones",
+          "label": "Exposiciones e inauguraciones"
+        }
+      },
+      "editorial": {
+        "venue_hours_enriched": true
       }
     },
     {
@@ -4134,6 +4708,124 @@
       }
     },
     {
+      "title": "Niño Zombie y el oráculo — ANÍMATE",
+      "event_type": "event",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro y danza"
+      },
+      "categories": [
+        {
+          "id": "teatro",
+          "label": "Teatro y danza"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-15T16:30:00-03:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-15 · 16:30",
+        "occurrences": [
+          {
+            "start": "2026-11-15T16:30:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function"
+      },
+      "location": {
+        "venue": "TeatroMuseo del Títere y el Payaso",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": "Cumming 795, Valparaíso",
+        "online": false,
+        "venue_id": "teatromuseo-valparaiso",
+        "latitude": null,
+        "longitude": null,
+        "map_url": "https://www.google.com/maps/search/?api=1&query=Cumming+795+Valpara%C3%ADso",
+        "verification": {
+          "status": "verified",
+          "method": "canonical_venue_registry",
+          "venue_id": "teatromuseo-valparaiso",
+          "official_name": "TeatroMuseo del Títere y el Payaso",
+          "verified_at": "2026-09-02"
+        }
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 4500,
+        "display_text": "General $4.500 · estudiantes/mayores $3.500 · pases liberados específicos"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DffPt-BRW5_/",
+        "source": "https://www.instagram.com/p/DffPt-BRW5_/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "Teatromuseo",
+      "source_id": "teatromuseo",
+      "source_name": "Teatromuseo",
+      "source_url": "https://www.instagram.com/p/DffPt-BRW5_/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Estreno de Niño Zombie y el oráculo, de Jason Guaico, en el X Encuentro Internacional de Títeres ANÍMATE. Función anunciada junto con El Awelo. Entradas liberadas para lista Guaico Títere y titiriteras/os.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_225086cf7fa16a5119dad20b",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "teatro",
+            "label": "Teatro y danza"
+          },
+          "source_id": "teatromuseo",
+          "source_url": "https://www.instagram.com/p/DffPt-BRW5_",
+          "start": "2026-11-15T16:30:00-03:00",
+          "function_id": "source-slot-31f5677f44acaceb86b402a8",
+          "evidence_url": "https://www.instagram.com/p/DffPt-BRW5_"
+        },
+        "verified_venue": {
+          "method": "canonical_venue_registry",
+          "venue_id": "teatromuseo-valparaiso",
+          "city": "Valparaíso",
+          "source_url": "https://www.teatromuseo.cl/",
+          "verified_at": "2026-09-02",
+          "address": "Cumming 795, Valparaíso"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "teatro",
+          "label": "Teatro y danza"
+        }
+      }
+    },
+    {
       "title": "Show Aniversario — siete magos",
       "event_type": "event",
       "primary_category": {
@@ -5451,6 +6143,108 @@
       },
       "editorial": {
         "venue_hours_enriched": true
+      }
+    },
+    {
+      "title": "Café STEAM — Ciencia desde la primera infancia",
+      "event_type": "event",
+      "primary_category": {
+        "id": "charlas-conferencias",
+        "label": "Charlas y conferencias"
+      },
+      "categories": [
+        {
+          "id": "charlas-conferencias",
+          "label": "Charlas y conferencias"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-18T17:00:00-03:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-18 · 17:00",
+        "occurrences": [
+          {
+            "start": "2026-11-18T17:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function"
+      },
+      "location": {
+        "venue": "Casa Central PUCV",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": null,
+        "online": false,
+        "venue_id": null,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Inscripción vía CIDSTEM; precio no confirmado"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/Dfm6n90FM2u/",
+        "source": "https://www.instagram.com/p/Dfm6n90FM2u/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso / CIDSTEM",
+      "source_id": "mhnvalpo",
+      "source_name": "Museo de Historia Natural de Valparaíso / CIDSTEM",
+      "source_url": "https://www.instagram.com/p/Dfm6n90FM2u/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Conversatorio con Montserrat Pedreira Álvarez sobre espacios de ciencia inclusivos y laboratorios para niños y niñas de 0 a 6 años; inscripción en cidstem.cl.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_506042a599329d61421a372b",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "charlas-conferencias",
+            "label": "Charlas y conferencias"
+          },
+          "source_id": "mhnvalpo",
+          "source_url": "https://www.instagram.com/p/Dfm6n90FM2u",
+          "start": "2026-11-18T17:00:00-03:00",
+          "function_id": "source-slot-6179a0f8ad61cf59e04fd5c7",
+          "evidence_url": "https://www.instagram.com/p/Dfm6n90FM2u"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "charlas-conferencias",
+          "label": "Charlas y conferencias"
+        }
       }
     },
     {
@@ -9215,6 +10009,124 @@
         "source_category": {
           "id": "cine",
           "label": "Cine"
+        }
+      }
+    },
+    {
+      "title": "Café STEAM — Inteligencia artificial: ¿Estamos dejando de pensar?",
+      "event_type": "event",
+      "primary_category": {
+        "id": "charlas-conferencias",
+        "label": "Charlas y conferencias"
+      },
+      "categories": [
+        {
+          "id": "charlas-conferencias",
+          "label": "Charlas y conferencias"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-24T17:00:00-03:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-24 · 17:00",
+        "occurrences": [
+          {
+            "start": "2026-11-24T17:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "reviewed_official_single_function"
+      },
+      "location": {
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": "Condell 1546, Valparaíso",
+        "online": false,
+        "venue_id": "museo-historia-natural-valparaiso",
+        "latitude": null,
+        "longitude": null,
+        "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+de+Historia+Natural+de+Valpara%C3%ADso%2C+Condell+1546%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
+        "verification": {
+          "status": "verified",
+          "method": "canonical_venue_registry",
+          "venue_id": "museo-historia-natural-valparaiso",
+          "official_name": "Museo de Historia Natural de Valparaíso",
+          "verified_at": "2026-09-21"
+        }
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Inscripción vía CIDSTEM; precio no confirmado"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/Dfm6n90FM2u/",
+        "source": "https://www.instagram.com/p/Dfm6n90FM2u/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso / CIDSTEM",
+      "source_id": "mhnvalpo",
+      "source_name": "Museo de Historia Natural de Valparaíso / CIDSTEM",
+      "source_url": "https://www.instagram.com/p/Dfm6n90FM2u/",
+      "last_verified_at": "2026-11-14T09:20:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T09:20:00-03:00",
+        "cancelled": false,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirmar horarios, acceso y disponibilidad en la fuente oficial.",
+        "registration_open": null
+      },
+      "description": "Conversatorio con María José Barros Ugarte, de Neurofuturos Lab, sobre IA, pensamiento crítico y capacidades humanas; inscripción en cidstem.cl.",
+      "tags": [
+        "Valparaíso–Viña",
+        "noviembre 2026"
+      ],
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "audience": null,
+      "registration_requirements": null,
+      "id": "agenda_8bcd42ba9f2e677cc06d1d20",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "charlas-conferencias",
+            "label": "Charlas y conferencias"
+          },
+          "source_id": "mhnvalpo",
+          "source_url": "https://www.instagram.com/p/Dfm6n90FM2u",
+          "start": "2026-11-24T17:00:00-03:00",
+          "function_id": "source-slot-4cd8cbcb9a56fde075ab66fe",
+          "evidence_url": "https://www.instagram.com/p/Dfm6n90FM2u"
+        },
+        "verified_venue": {
+          "method": "canonical_venue_registry",
+          "venue_id": "museo-historia-natural-valparaiso",
+          "city": "Valparaíso",
+          "source_url": "https://www.mhnv.gob.cl/cartelera/traves-del-espejo-exposicion-de-ervin-echeverria-iturra",
+          "verified_at": "2026-09-21",
+          "address": "Condell 1546, Valparaíso"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "charlas-conferencias",
+          "label": "Charlas y conferencias"
         }
       }
     },
@@ -16929,6 +17841,10 @@
         "reason": "title_quality_review"
       },
       {
+        "event_id": "agenda_f66a594058661602bd7f174a",
+        "reason": "retained_enrichment"
+      },
+      {
         "event_id": "agenda_portaltickets_valparaiso_69e5583de634784c",
         "reason": "title_quality_review"
       },
@@ -17005,8 +17921,8 @@
     ]
   },
   "verified_public_events": {
-    "applied_at": "2026-11-14T07:59:44-03:00",
-    "added_count": 73,
+    "applied_at": "2026-11-14T09:35:57-03:00",
+    "added_count": 81,
     "added": [
       {
         "id": "agenda_69211fbb6583ae0c4f5f8320",
@@ -17591,6 +18507,70 @@
         "end": "2026-11-28T01:30:00-03:00",
         "source_id": "estadio_espanol_recreo",
         "official_url": "https://www.instagram.com/p/DfZ7pK1CURb/"
+      },
+      {
+        "id": "agenda_b8615683c34be8a48af60a5e",
+        "title": "PALABRARMAS — Cecilia Vicuña",
+        "start": "2026-11-14",
+        "end": "2027-01-10",
+        "source_id": "biav_valpo",
+        "official_url": "https://biav.cl/evento/palabrarmas/"
+      },
+      {
+        "id": "agenda_b81a8b2355a4089bf0d804fd",
+        "title": "Calamina — Renato Órdenes, Nicholas Jackson y Carlos Silva",
+        "start": "2026-11-07",
+        "end": "2026-11-27",
+        "source_id": "biav_valpo",
+        "official_url": "https://biav.cl/evento/calamina/"
+      },
+      {
+        "id": "agenda_d1114088c258eac1ce6a852c",
+        "title": "Matta: Memorias de Guerra",
+        "start": "2026-11-13T10:00:00-03:00",
+        "end": "2026-12-06",
+        "source_id": "biav_valpo",
+        "official_url": "https://biav.cl/evento/matta-memorias-de-guerra/"
+      },
+      {
+        "id": "agenda_f66a594058661602bd7f174a",
+        "title": "El mar nos sostiene — Juan Esteban Reyes",
+        "start": "2026-11-14",
+        "end": "2027-02-07",
+        "source_id": "biav_valpo",
+        "official_url": "https://biav.cl/evento/el-mar-nos-sostiene/"
+      },
+      {
+        "id": "agenda_e353566591e688b53938efdf",
+        "title": "Paraíso Perdido",
+        "start": "2026-10-16",
+        "end": "2026-12-31",
+        "source_id": "biav_valpo",
+        "official_url": "https://biav.cl/evento/santos-chavez-el-paraiso-perdido/"
+      },
+      {
+        "id": "agenda_506042a599329d61421a372b",
+        "title": "Café STEAM — Ciencia desde la primera infancia",
+        "start": "2026-11-18T17:00:00-03:00",
+        "end": null,
+        "source_id": "mhnvalpo",
+        "official_url": "https://www.instagram.com/p/Dfm6n90FM2u/"
+      },
+      {
+        "id": "agenda_8bcd42ba9f2e677cc06d1d20",
+        "title": "Café STEAM — Inteligencia artificial: ¿Estamos dejando de pensar?",
+        "start": "2026-11-24T17:00:00-03:00",
+        "end": null,
+        "source_id": "mhnvalpo",
+        "official_url": "https://www.instagram.com/p/Dfm6n90FM2u/"
+      },
+      {
+        "id": "agenda_225086cf7fa16a5119dad20b",
+        "title": "Niño Zombie y el oráculo — ANÍMATE",
+        "start": "2026-11-15T16:30:00-03:00",
+        "end": null,
+        "source_id": "teatromuseo",
+        "official_url": "https://www.instagram.com/p/DffPt-BRW5_/"
       }
     ],
     "skipped": [

@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "213290f812c0a58dafc154e411ee9923b2fb265913c273352dbf9c758cfbaa52",
-  "generated_at": "2026-11-14T11:05:13Z",
+  "fingerprint": "912a29cf3ed5aab49429cc29231d3e0328674fa47a9479cc973931b908c39466",
+  "generated_at": "2026-11-14T12:40:20Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -336,6 +336,32 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::biav": {
+      "category_distribution": {
+        "exposiciones": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
+      "source_name": "BIAV",
+      "source_url": "https://biav.cl/evento/santos-chavez-el-paraiso-perdido/",
+      "total": 4,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::biav y parque cultural de valparaiso": {
+      "category_distribution": {
+        "exposiciones": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
+      "source_name": "BIAV y Parque Cultural de Valparaíso",
+      "source_url": "https://biav.cl/evento/matta-memorias-de-guerra/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::cafe masita rica": {
       "category_distribution": {
         "literatura": 1.0
@@ -538,6 +564,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::museo de historia natural de valparaiso cidstem": {
+      "category_distribution": {
+        "charlas-conferencias": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "charlas-conferencias",
+      "dominant_share": 1.0,
+      "source_name": "Museo de Historia Natural de Valparaíso / CIDSTEM",
+      "source_url": "https://www.instagram.com/p/Dfm6n90FM2u/",
+      "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::museo fonck": {
       "category_distribution": {
         "cursos-talleres-campus": 0.111111,
@@ -697,7 +736,7 @@
       "dominant_share": 1.0,
       "source_name": "TeatroMuseo",
       "source_url": "https://www.instagram.com/p/DfiWcJmiXzD/",
-      "total": 2,
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -771,14 +810,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "bf9a6062e5f18525502a3059a6ebeffaae5fc010",
+  "source_ref": "8afbd23b7c472dfc1a5c9f7f92e52d82a41d2303",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 55,
-    "total_events": 443,
+    "source_count": 58,
+    "total_events": 451,
     "unclassified_count": 11,
-    "unclassified_rate": 0.024831
+    "unclassified_rate": 0.02439
   },
   "unclassified_queue": [
     {
