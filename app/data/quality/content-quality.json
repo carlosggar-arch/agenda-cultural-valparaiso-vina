@@ -1282,7 +1282,7 @@
             }
           },
           "event_type": "event",
-          "id": "agenda_54d7e0240c6694b2b3433180",
+          "id": "agenda_1d65c11d7b0c8f58a17afce5",
           "image": {
             "alt": null,
             "url": null
@@ -1402,19 +1402,19 @@
             "Sala Secreta",
             "teatro"
           ],
-          "title": "Sala Secreta ? próximas funciones del quinto aniversario"
+          "title": "Sala Secreta — próximas funciones del quinto aniversario"
         },
         "decision": {
-          "id": "agenda_54d7e0240c6694b2b3433180",
+          "id": "agenda_1d65c11d7b0c8f58a17afce5",
           "missing_evidence": [
             "verified_performance_start_time"
           ],
           "reason": "performance_without_verified_concrete_session",
-          "title": "Sala Secreta ? próximas funciones del quinto aniversario"
+          "title": "Sala Secreta — próximas funciones del quinto aniversario"
         },
         "event_binding": {
           "city": "Valparaíso",
-          "id": "agenda_54d7e0240c6694b2b3433180",
+          "id": "agenda_1d65c11d7b0c8f58a17afce5",
           "schedule": {
             "end": "2026-11-28",
             "mode": "dated",
@@ -1438,10 +1438,10 @@
           "source_urls": [
             "https://www.instagram.com/p/DfQcCpCIELw"
           ],
-          "title": "Sala Secreta ? próximas funciones del quinto aniversario",
+          "title": "Sala Secreta — próximas funciones del quinto aniversario",
           "venue": "sala-secreta-valparaiso"
         },
-        "event_sha256": "2e132dc628453f6bc82f5b01dee80a21899ff70a90d5f4f7678982c533bfdaee",
+        "event_sha256": "31116a83c2bb5c53949ddf03784b705c0195cdb15216f156a7920a3fd600d535",
         "kind": "quarantined",
         "publication_date": "2026-11-14",
         "schema_version": "1.0.0",
@@ -1449,7 +1449,7 @@
         "stage": "content_quality_guard",
         "transformation": {
           "action": "quarantine",
-          "canonical_event_id": "agenda_54d7e0240c6694b2b3433180",
+          "canonical_event_id": "agenda_1d65c11d7b0c8f58a17afce5",
           "destination": {
             "canonical_event_id": null,
             "state": "quarantine"
@@ -1480,10 +1480,10 @@
             }
           },
           "reason": "performance_without_verified_concrete_session",
-          "source_record_id": "agenda_54d7e0240c6694b2b3433180",
+          "source_record_id": "agenda_1d65c11d7b0c8f58a17afce5",
           "source_url": "https://www.instagram.com/p/DfQcCpCIELw/",
           "stage": "content_quality_guard",
-          "title": "Sala Secreta ? próximas funciones del quinto aniversario"
+          "title": "Sala Secreta — próximas funciones del quinto aniversario"
         }
       },
       {
@@ -1495,51 +1495,48 @@
               "label": "Música"
             }
           ],
-          "description": "Jornada de flamenco y tradición española, anunciada para el 14 de noviembre; horario no especificado.",
+          "description": "Grabación en vivo del disco Experiencia Cumbre; horario no especificado en el anuncio.",
           "editorial": {
             "classification": "event",
             "reason": "Source date and conditions reviewed 2026-11-14; partial date-only entries do not invent a time",
             "verified_public_event_overlay": true,
-            "verified_publication_patches": [
-              "culturasvina_public_display_name"
-            ],
             "verified_source_occurrence": {
               "contract": "verified-source-occurrence/1",
-              "function_id": "source-slot-fde7804b44ba6d55b61c0801",
-              "source_url": "https://www.instagram.com/p/Dfkjpoiqhps/",
-              "start_date": "2026-11-14"
+              "function_id": "source-slot-44d7161cb339d4849da5ff66",
+              "source_url": "https://www.instagram.com/p/DfsjhtOSbnX/",
+              "start_date": "2026-11-21"
             }
           },
           "event_type": "event",
-          "id": "agenda_667ca1c8471695698081546e",
+          "id": "agenda_5a7a773eb9c1e0553eddef0e",
           "image": {
             "alt": null,
             "url": null
           },
           "last_verified_at": "2026-11-14T07:00:00-03:00",
           "links": {
-            "official": "https://www.instagram.com/p/Dfkjpoiqhps/",
+            "official": "https://www.instagram.com/p/DfsjhtOSbnX/",
             "registration": null,
-            "source": "https://www.instagram.com/p/Dfkjpoiqhps/",
+            "source": "https://www.instagram.com/p/DfsjhtOSbnX/",
             "tickets": null
           },
           "location": {
-            "address": "Reñaca, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
+            "address": "Carrera 440, Valparaíso",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
             "latitude": null,
             "longitude": null,
             "online": false,
-            "venue": "Parque Gastón Hamel",
-            "venue_id": null
+            "venue": "Estrella Negra Club de Jazz",
+            "venue_id": "estrella-negra-jazz"
           },
-          "organizer": "Visita Viña — Municipalidad de Viña del Mar",
+          "organizer": "Estrella Negra Club de Jazz",
           "price": {
-            "currency": null,
-            "display_text": "Consultar condiciones en fuente oficial",
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
+            "currency": "CLP",
+            "display_text": "Preventa $4.000 · general $5.000",
+            "is_free": false,
+            "max_amount": 5000,
+            "min_amount": 4000
           },
           "primary_category": {
             "id": "musica",
@@ -1553,11 +1550,11 @@
                 "label": "Música"
               },
               "contract": "verified-category-evidence/1",
-              "evidence_url": "https://www.instagram.com/p/Dfkjpoiqhps",
-              "function_id": "source-slot-fde7804b44ba6d55b61c0801",
-              "source_id": "culturasvina",
-              "source_url": "https://www.instagram.com/p/Dfkjpoiqhps",
-              "start": "2026-11-14"
+              "evidence_url": "https://www.instagram.com/p/DfsjhtOSbnX",
+              "function_id": "source-slot-44d7161cb339d4849da5ff66",
+              "source_id": "estrella_negra_jazz",
+              "source_url": "https://www.instagram.com/p/DfsjhtOSbnX",
+              "start": "2026-11-21"
             },
             "verified_public_event_overlay": {
               "authority": "verified_public_events",
@@ -1569,7 +1566,7 @@
             "cancelled": false,
             "information_completeness": "partial",
             "last_verified_at": "2026-11-14T07:00:00-03:00",
-            "price_confirmed": false,
+            "price_confirmed": true,
             "registration_closed": null,
             "registration_open": null,
             "sold_out": null,
@@ -1577,16 +1574,16 @@
           },
           "registration_requirements": null,
           "schedule": {
-            "display_text": "2026-11-14 · horario por confirmar",
+            "display_text": "2026-11-21 · horario por confirmar",
             "end": null,
             "mode": "dated",
             "occurrences": [
               {
                 "end": null,
-                "start": "2026-11-14"
+                "start": "2026-11-21"
               }
             ],
-            "start": "2026-11-14",
+            "start": "2026-11-21",
             "start_confidence": "official_date_only",
             "timezone": "America/Santiago"
           },
@@ -1596,45 +1593,45 @@
               "label": "Música"
             }
           },
-          "source_id": "culturasvina",
-          "source_name": "Visita Viña — Municipalidad de Viña del Mar",
-          "source_url": "https://www.instagram.com/p/Dfkjpoiqhps/",
+          "source_id": "estrella_negra_jazz",
+          "source_name": "Estrella Negra Club de Jazz",
+          "source_url": "https://www.instagram.com/p/DfsjhtOSbnX/",
           "tags": [
-            "Culturas Viña",
+            "Estrella Negra Club de Jazz",
             "musica"
           ],
-          "title": "Flamenco Triana ? encuentro de flamenco en Reñaca"
+          "title": "Cristian Gallardo Cuarteto — Experiencia Cumbre"
         },
         "decision": {
-          "id": "agenda_667ca1c8471695698081546e",
+          "id": "agenda_5a7a773eb9c1e0553eddef0e",
           "missing_evidence": [
             "verified_performance_start_time"
           ],
           "reason": "performance_without_verified_concrete_session",
-          "title": "Flamenco Triana ? encuentro de flamenco en Reñaca"
+          "title": "Cristian Gallardo Cuarteto — Experiencia Cumbre"
         },
         "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_667ca1c8471695698081546e",
+          "city": "Valparaíso",
+          "id": "agenda_5a7a773eb9c1e0553eddef0e",
           "schedule": {
             "end": null,
             "mode": "dated",
             "occurrences": [
               {
                 "end": null,
-                "start": "2026-11-14"
+                "start": "2026-11-21"
               }
             ],
-            "start": "2026-11-14"
+            "start": "2026-11-21"
           },
-          "source_id": "culturasvina",
+          "source_id": "estrella_negra_jazz",
           "source_urls": [
-            "https://www.instagram.com/p/Dfkjpoiqhps"
+            "https://www.instagram.com/p/DfsjhtOSbnX"
           ],
-          "title": "Flamenco Triana ? encuentro de flamenco en Reñaca",
-          "venue": "Parque Gastón Hamel"
+          "title": "Cristian Gallardo Cuarteto — Experiencia Cumbre",
+          "venue": "estrella-negra-jazz"
         },
-        "event_sha256": "122529913ce16eda0042e9d6fac86946f54a07b1233030810fd87e2635d788df",
+        "event_sha256": "f73c0ace69f52a0c480c58c754c8496a60bf7a8d47ca322d494003a3bf846e58",
         "kind": "quarantined",
         "publication_date": "2026-11-14",
         "schema_version": "1.0.0",
@@ -1642,7 +1639,7 @@
         "stage": "content_quality_guard",
         "transformation": {
           "action": "quarantine",
-          "canonical_event_id": "agenda_667ca1c8471695698081546e",
+          "canonical_event_id": "agenda_5a7a773eb9c1e0553eddef0e",
           "destination": {
             "canonical_event_id": null,
             "state": "quarantine"
@@ -1652,7 +1649,7 @@
               "verified_performance_start_time"
             ]
           },
-          "occurrence_id": "occurrence:cdd40b47c948445df697",
+          "occurrence_id": "occurrence:44f0a433831c0f7f6a6c",
           "provenance": {
             "verified_category_evidence": {
               "authority": "verified_public_events",
@@ -1661,11 +1658,11 @@
                 "label": "Música"
               },
               "contract": "verified-category-evidence/1",
-              "evidence_url": "https://www.instagram.com/p/Dfkjpoiqhps",
-              "function_id": "source-slot-fde7804b44ba6d55b61c0801",
-              "source_id": "culturasvina",
-              "source_url": "https://www.instagram.com/p/Dfkjpoiqhps",
-              "start": "2026-11-14"
+              "evidence_url": "https://www.instagram.com/p/DfsjhtOSbnX",
+              "function_id": "source-slot-44d7161cb339d4849da5ff66",
+              "source_id": "estrella_negra_jazz",
+              "source_url": "https://www.instagram.com/p/DfsjhtOSbnX",
+              "start": "2026-11-21"
             },
             "verified_public_event_overlay": {
               "authority": "verified_public_events",
@@ -1673,10 +1670,10 @@
             }
           },
           "reason": "performance_without_verified_concrete_session",
-          "source_record_id": "agenda_667ca1c8471695698081546e",
-          "source_url": "https://www.instagram.com/p/Dfkjpoiqhps/",
+          "source_record_id": "agenda_5a7a773eb9c1e0553eddef0e",
+          "source_url": "https://www.instagram.com/p/DfsjhtOSbnX/",
           "stage": "content_quality_guard",
-          "title": "Flamenco Triana ? encuentro de flamenco en Reñaca"
+          "title": "Cristian Gallardo Cuarteto — Experiencia Cumbre"
         }
       },
       {
@@ -1892,7 +1889,7 @@
             }
           },
           "event_type": "event",
-          "id": "agenda_7f7199d651de8337f445eb76",
+          "id": "agenda_e05fabc2e7d113e03e8122f7",
           "image": {
             "alt": null,
             "url": null
@@ -2026,16 +2023,16 @@
             "Museo Baburizza",
             "exposiciones"
           ],
-          "title": "Valparaíso 1839?2026: fotografías, tiempos y fragmentos"
+          "title": "Valparaíso 1839–2026: fotografías, tiempos y fragmentos"
         },
         "decision": {
-          "id": "agenda_7f7199d651de8337f445eb76",
+          "id": "agenda_e05fabc2e7d113e03e8122f7",
           "reason": "schedule_ended_before_publication_date",
-          "title": "Valparaíso 1839?2026: fotografías, tiempos y fragmentos"
+          "title": "Valparaíso 1839–2026: fotografías, tiempos y fragmentos"
         },
         "event_binding": {
           "city": "Valparaíso",
-          "id": "agenda_7f7199d651de8337f445eb76",
+          "id": "agenda_e05fabc2e7d113e03e8122f7",
           "schedule": {
             "end": "2026-12-27",
             "mode": "dated",
@@ -2052,10 +2049,10 @@
             "https://www.instagram.com/p/DfisRGDFi7Q",
             "https://www.museobaburizza.cl/actividad/valparaiso-1839-2026-fotografias-tiempos-y-fragmentos"
           ],
-          "title": "Valparaíso 1839?2026: fotografías, tiempos y fragmentos",
+          "title": "Valparaíso 1839–2026: fotografías, tiempos y fragmentos",
           "venue": "Museo Baburizza, Sala Extensión"
         },
-        "event_sha256": "8ccbe85ab1f4c839b3a43cc56e8da08ce5ae6b6d0ad3584fb90a05a3d2768153",
+        "event_sha256": "64bc2ee4167eb8e19ed9263e832cfaddae77cccc432cbbbc232b9fedc9c63114",
         "kind": "expired_removed",
         "publication_date": "2026-11-14",
         "schema_version": "1.0.0",
@@ -2063,7 +2060,7 @@
         "stage": "content_quality_guard",
         "transformation": {
           "action": "expiration",
-          "canonical_event_id": "agenda_7f7199d651de8337f445eb76",
+          "canonical_event_id": "agenda_e05fabc2e7d113e03e8122f7",
           "destination": {
             "canonical_event_id": null,
             "state": "expired"
@@ -2089,10 +2086,10 @@
             }
           },
           "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_7f7199d651de8337f445eb76",
+          "source_record_id": "agenda_e05fabc2e7d113e03e8122f7",
           "source_url": "https://www.museobaburizza.cl/actividad/valparaiso-1839-2026-fotografias-tiempos-y-fragmentos/",
           "stage": "content_quality_guard",
-          "title": "Valparaíso 1839?2026: fotografías, tiempos y fragmentos"
+          "title": "Valparaíso 1839–2026: fotografías, tiempos y fragmentos"
         }
       },
       {
@@ -2104,214 +2101,51 @@
               "label": "Música"
             }
           ],
-          "description": "🎤🎶𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼 🎤🎶 Mi gentecita bella! ❤️ Luego del gran éxito que tuvimos en Casablanca, es hora de emigrar de mi ciudad y llevar mi música a Valparaíso! Teatro IPA será nuestro punto de encuentro y lugar que me hará debutar fuera de donde me c...",
-          "event_type": "event",
-          "id": "agenda_87f9a18c0cb99e0e4986d472",
-          "image": {
-            "alt": "𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼",
-            "url": "https://scontent-waw2-2.cdninstagram.com/v/t51.82787-15/858799992_18382479208238430_8635565827942220319_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=NDAxMjk1MjkxNDkyNTkwOTcyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qQNWnJG7ubEQ7kNvwGeO__t&_nc_oc=Adp7jKXflrOt6s9ZDxU5lPvrMqNCL8ANrSCanff4fYFW8f0A_JfQM1A4b48blWeMboI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-waw2-2.cdninstagram.com&_nc_gid=6ONM0yjmRQwB7p92KqUYRw&_nc_ss=7320f&oh=00_AQTm1HMu5yYDc9F3SIF53Q3BGARG45yz0-pSmbSI5gxHOA&oe=6AEE6CA5"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.instagram.com/p/Dew32oihvba/",
-            "registration": null,
-            "source": "https://www.instagram.com/p/Dew32oihvba/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Condell 1349, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Condell+1349+Valpara%C3%ADso",
-            "online": false,
-            "venue": "Centro Cultural IPA",
-            "venue_id": "centro-cultural-ipa",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Centro Cultural IPA",
-              "status": "verified",
-              "venue_id": "centro-cultural-ipa",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "organizer": "Sala Teatro IPA",
-          "price": {
-            "currency": "CLP",
-            "display_text": "$8.000",
-            "is_free": false,
-            "max_amount": 8000,
-            "min_amount": 8000
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1349, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://valpocultura.cl/evento/sala-ipa-cuestion-de-ubicacion-2/",
-              "venue_id": "centro-cultural-ipa",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "public_status": {
-            "advisory_text": null,
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "represented_functions": [
-            {
-              "function_id": "observation-5157e5c9888800ee6aa3347a",
-              "start": "2026-11-13",
-              "title": "𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼",
-              "venue": "Sala Teatro IPA"
-            }
-          ],
-          "schedule": {
-            "display_text": "2026-11-13 · 19:30",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-11-13T19:30:00-03:00"
-              }
-            ],
-            "start": "2026-11-13T19:30:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "sala_teatro_ipa",
-          "source_name": "Sala Teatro IPA",
-          "source_url": "https://www.instagram.com/p/Dew32oihvba/",
-          "tags": [
-            "banda",
-            "concierto",
-            "magia",
-            "música"
-          ],
-          "title": "𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼"
-        },
-        "decision": {
-          "id": "agenda_87f9a18c0cb99e0e4986d472",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_87f9a18c0cb99e0e4986d472",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-11-13T19:30:00-03:00"
-              }
-            ],
-            "start": "2026-11-13T19:30:00-03:00"
-          },
-          "source_id": "sala_teatro_ipa",
-          "source_urls": [
-            "https://www.instagram.com/p/Dew32oihvba"
-          ],
-          "title": "𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼",
-          "venue": "centro-cultural-ipa"
-        },
-        "event_sha256": "400a3b5e6a4771fcca0f1dc63fea0c892ce0ff3b9ffaaf3fd0d9d55728eb9e23",
-        "kind": "expired_removed",
-        "publication_date": "2026-11-14",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_87f9a18c0cb99e0e4986d472",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:7e3aaf381d111904e055",
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1349, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://valpocultura.cl/evento/sala-ipa-cuestion-de-ubicacion-2/",
-              "venue_id": "centro-cultural-ipa",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_87f9a18c0cb99e0e4986d472",
-          "source_url": "https://www.instagram.com/p/Dew32oihvba/",
-          "stage": "content_quality_guard",
-          "title": "𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "Grabación en vivo del disco Experiencia Cumbre; horario no especificado en el anuncio.",
+          "description": "Jornada de flamenco y tradición española, anunciada para el 14 de noviembre; horario no especificado.",
           "editorial": {
             "classification": "event",
             "reason": "Source date and conditions reviewed 2026-11-14; partial date-only entries do not invent a time",
-            "title_quality_review_required": true,
             "verified_public_event_overlay": true,
+            "verified_publication_patches": [
+              "culturasvina_public_display_name"
+            ],
             "verified_source_occurrence": {
               "contract": "verified-source-occurrence/1",
-              "function_id": "source-slot-44d7161cb339d4849da5ff66",
-              "source_url": "https://www.instagram.com/p/DfsjhtOSbnX/",
-              "start_date": "2026-11-21"
+              "function_id": "source-slot-fde7804b44ba6d55b61c0801",
+              "source_url": "https://www.instagram.com/p/Dfkjpoiqhps/",
+              "start_date": "2026-11-14"
             }
           },
           "event_type": "event",
-          "id": "agenda_a247da5d7fe7387523d32153",
+          "id": "agenda_f4a4ce984b5fb0a63a635e0d",
           "image": {
             "alt": null,
             "url": null
           },
           "last_verified_at": "2026-11-14T07:00:00-03:00",
           "links": {
-            "official": "https://www.instagram.com/p/DfsjhtOSbnX/",
+            "official": "https://www.instagram.com/p/Dfkjpoiqhps/",
             "registration": null,
-            "source": "https://www.instagram.com/p/DfsjhtOSbnX/",
+            "source": "https://www.instagram.com/p/Dfkjpoiqhps/",
             "tickets": null
           },
           "location": {
-            "address": "Carrera 440, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
+            "address": "Reñaca, Viña del Mar",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
             "latitude": null,
             "longitude": null,
             "online": false,
-            "venue": "Estrella Negra Club de Jazz",
-            "venue_id": "estrella-negra-jazz"
+            "venue": "Parque Gastón Hamel",
+            "venue_id": null
           },
-          "organizer": "Estrella Negra Club de Jazz",
+          "organizer": "Visita Viña — Municipalidad de Viña del Mar",
           "price": {
-            "currency": "CLP",
-            "display_text": "Preventa $4.000 · general $5.000",
-            "is_free": false,
-            "max_amount": 5000,
-            "min_amount": 4000
+            "currency": null,
+            "display_text": "Consultar condiciones en fuente oficial",
+            "is_free": null,
+            "max_amount": null,
+            "min_amount": null
           },
           "primary_category": {
             "id": "musica",
@@ -2325,11 +2159,11 @@
                 "label": "Música"
               },
               "contract": "verified-category-evidence/1",
-              "evidence_url": "https://www.instagram.com/p/DfsjhtOSbnX",
-              "function_id": "source-slot-44d7161cb339d4849da5ff66",
-              "source_id": "estrella_negra_jazz",
-              "source_url": "https://www.instagram.com/p/DfsjhtOSbnX",
-              "start": "2026-11-21"
+              "evidence_url": "https://www.instagram.com/p/Dfkjpoiqhps",
+              "function_id": "source-slot-fde7804b44ba6d55b61c0801",
+              "source_id": "culturasvina",
+              "source_url": "https://www.instagram.com/p/Dfkjpoiqhps",
+              "start": "2026-11-14"
             },
             "verified_public_event_overlay": {
               "authority": "verified_public_events",
@@ -2341,7 +2175,7 @@
             "cancelled": false,
             "information_completeness": "partial",
             "last_verified_at": "2026-11-14T07:00:00-03:00",
-            "price_confirmed": true,
+            "price_confirmed": false,
             "registration_closed": null,
             "registration_open": null,
             "sold_out": null,
@@ -2349,16 +2183,16 @@
           },
           "registration_requirements": null,
           "schedule": {
-            "display_text": "2026-11-21 · horario por confirmar",
+            "display_text": "2026-11-14 · horario por confirmar",
             "end": null,
             "mode": "dated",
             "occurrences": [
               {
                 "end": null,
-                "start": "2026-11-21"
+                "start": "2026-11-14"
               }
             ],
-            "start": "2026-11-21",
+            "start": "2026-11-14",
             "start_confidence": "official_date_only",
             "timezone": "America/Santiago"
           },
@@ -2368,45 +2202,45 @@
               "label": "Música"
             }
           },
-          "source_id": "estrella_negra_jazz",
-          "source_name": "Estrella Negra Club de Jazz",
-          "source_url": "https://www.instagram.com/p/DfsjhtOSbnX/",
+          "source_id": "culturasvina",
+          "source_name": "Visita Viña — Municipalidad de Viña del Mar",
+          "source_url": "https://www.instagram.com/p/Dfkjpoiqhps/",
           "tags": [
-            "Estrella Negra Club de Jazz",
+            "Culturas Viña",
             "musica"
           ],
-          "title": "Cristian Gallardo Cuarteto ? Experiencia Cumbre"
+          "title": "Flamenco Triana — encuentro de flamenco en Reñaca"
         },
         "decision": {
-          "id": "agenda_a247da5d7fe7387523d32153",
+          "id": "agenda_f4a4ce984b5fb0a63a635e0d",
           "missing_evidence": [
             "verified_performance_start_time"
           ],
           "reason": "performance_without_verified_concrete_session",
-          "title": "Cristian Gallardo Cuarteto ? Experiencia Cumbre"
+          "title": "Flamenco Triana — encuentro de flamenco en Reñaca"
         },
         "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_a247da5d7fe7387523d32153",
+          "city": "Viña del Mar",
+          "id": "agenda_f4a4ce984b5fb0a63a635e0d",
           "schedule": {
             "end": null,
             "mode": "dated",
             "occurrences": [
               {
                 "end": null,
-                "start": "2026-11-21"
+                "start": "2026-11-14"
               }
             ],
-            "start": "2026-11-21"
+            "start": "2026-11-14"
           },
-          "source_id": "estrella_negra_jazz",
+          "source_id": "culturasvina",
           "source_urls": [
-            "https://www.instagram.com/p/DfsjhtOSbnX"
+            "https://www.instagram.com/p/Dfkjpoiqhps"
           ],
-          "title": "Cristian Gallardo Cuarteto ? Experiencia Cumbre",
-          "venue": "estrella-negra-jazz"
+          "title": "Flamenco Triana — encuentro de flamenco en Reñaca",
+          "venue": "Parque Gastón Hamel"
         },
-        "event_sha256": "6a72f08eabe1cdd66fe4e3de101ba9f9f6788bf653585d13951a8bcb67eeb8d3",
+        "event_sha256": "206d006b8e04af654c9ea6f99454bbc9c64be943e8da5474ef6559e39d2992a5",
         "kind": "quarantined",
         "publication_date": "2026-11-14",
         "schema_version": "1.0.0",
@@ -2414,7 +2248,7 @@
         "stage": "content_quality_guard",
         "transformation": {
           "action": "quarantine",
-          "canonical_event_id": "agenda_a247da5d7fe7387523d32153",
+          "canonical_event_id": "agenda_f4a4ce984b5fb0a63a635e0d",
           "destination": {
             "canonical_event_id": null,
             "state": "quarantine"
@@ -2424,7 +2258,7 @@
               "verified_performance_start_time"
             ]
           },
-          "occurrence_id": "occurrence:44f0a433831c0f7f6a6c",
+          "occurrence_id": "occurrence:cdd40b47c948445df697",
           "provenance": {
             "verified_category_evidence": {
               "authority": "verified_public_events",
@@ -2433,11 +2267,11 @@
                 "label": "Música"
               },
               "contract": "verified-category-evidence/1",
-              "evidence_url": "https://www.instagram.com/p/DfsjhtOSbnX",
-              "function_id": "source-slot-44d7161cb339d4849da5ff66",
-              "source_id": "estrella_negra_jazz",
-              "source_url": "https://www.instagram.com/p/DfsjhtOSbnX",
-              "start": "2026-11-21"
+              "evidence_url": "https://www.instagram.com/p/Dfkjpoiqhps",
+              "function_id": "source-slot-fde7804b44ba6d55b61c0801",
+              "source_id": "culturasvina",
+              "source_url": "https://www.instagram.com/p/Dfkjpoiqhps",
+              "start": "2026-11-14"
             },
             "verified_public_event_overlay": {
               "authority": "verified_public_events",
@@ -2445,586 +2279,10 @@
             }
           },
           "reason": "performance_without_verified_concrete_session",
-          "source_record_id": "agenda_a247da5d7fe7387523d32153",
-          "source_url": "https://www.instagram.com/p/DfsjhtOSbnX/",
+          "source_record_id": "agenda_f4a4ce984b5fb0a63a635e0d",
+          "source_url": "https://www.instagram.com/p/Dfkjpoiqhps/",
           "stage": "content_quality_guard",
-          "title": "Cristian Gallardo Cuarteto ? Experiencia Cumbre"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "🎼 ¡Que la música también sea parte del aprendizaje! 🎻¿Tu establecimiento educacional quiere vivir una experiencia musical diferente? La Orquesta de Cámara PUCV invita a comunidades educativas a disfrutar de un concierto pensado para acercar la música docta a n...",
-          "event_type": "event",
-          "id": "agenda_a3040fec5e515c7b994fe8cc",
-          "image": {
-            "alt": "¡Que la música también sea parte del aprendizaje!",
-            "url": "https://instagram.fsvq7-1.fna.fbcdn.net/v/t51.82787-15/870018775_18339498763274078_3840598511743845272_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAxNzI0NDE2MzEwMzE4MjkxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NFwNgobaJ0kQ7kNvwH55ZhL&_nc_oc=AdqBbrFSkoIeqiQ9A9exV4K9EZEx4-e7yzZ3u3uAkt28Hj_cvZ15adwF8yEFVw9EVrQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fsvq7-1.fna&_nc_gid=f4qKN88St_UX0s7K1N7X4w&_nc_ss=7320f&oh=00_AQQY_HLfviSirf9BaH_CS0lU-K7tBFaqn29R16CDA8KMRA&oe=6AEE9EFC"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.instagram.com/p/DfAHkg1xtBF/",
-            "registration": null,
-            "source": "https://www.instagram.com/p/DfAHkg1xtBF/",
-            "tickets": null
-          },
-          "location": {
-            "address": null,
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Sala IBC, Avenida Brasil 2241",
-            "venue_id": null
-          },
-          "organizer": "Cultura PUCV",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Gratis",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "public_status": {
-            "advisory_text": null,
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": false
-          },
-          "registration_requirements": null,
-          "represented_functions": [
-            {
-              "function_id": "observation-4b0b173fa44c13bfc571b055",
-              "start": "2026-11-13",
-              "title": "¡Que la música también sea parte del aprendizaje!",
-              "venue": "Sala IBC, Avenida Brasil 2241, Valparaíso"
-            }
-          ],
-          "schedule": {
-            "display_text": "2026-11-13 · 10:00",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-11-13T10:00:00-03:00"
-              }
-            ],
-            "start": "2026-11-13T10:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "cultura_pucv",
-          "source_name": "Cultura PUCV",
-          "source_url": "https://www.instagram.com/p/DfAHkg1xtBF/",
-          "tags": [
-            "concierto",
-            "música",
-            "orquesta"
-          ],
-          "title": "¡Que la música también sea parte del aprendizaje!"
-        },
-        "decision": {
-          "id": "agenda_a3040fec5e515c7b994fe8cc",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "¡Que la música también sea parte del aprendizaje!"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_a3040fec5e515c7b994fe8cc",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-11-13T10:00:00-03:00"
-              }
-            ],
-            "start": "2026-11-13T10:00:00-03:00"
-          },
-          "source_id": "cultura_pucv",
-          "source_urls": [
-            "https://www.instagram.com/p/DfAHkg1xtBF"
-          ],
-          "title": "¡Que la música también sea parte del aprendizaje!",
-          "venue": "Sala IBC, Avenida Brasil 2241"
-        },
-        "event_sha256": "8320fe83208a84e892543c6d6093a0895a5f2eca94091f1f997535d103d46c60",
-        "kind": "expired_removed",
-        "publication_date": "2026-11-14",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_a3040fec5e515c7b994fe8cc",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:193f564d1b730357d84f",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://www.instagram.com/p/DfAHkg1xtBF/"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_a3040fec5e515c7b994fe8cc",
-          "source_url": "https://www.instagram.com/p/DfAHkg1xtBF/",
-          "stage": "content_quality_guard",
-          "title": "¡Que la música también sea parte del aprendizaje!"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "exposiciones",
-              "label": "Exposiciones"
-            }
-          ],
-          "description": "Esta serie fotográfica nace de años recorriendo el Archipiélago de Juan Fernández, un territorio aislado en medio del Pacífico sur donde el océano define cada forma de vida.",
-          "editorial": {
-            "venue_hours_enriched": true,
-            "verified_publication_patches": [
-              "review_20261108_verified_admission_miradas"
-            ]
-          },
-          "event_type": "event",
-          "id": "agenda_baburizza_92d94cb5c6155222292a",
-          "image": {
-            "alt": "Miradas acuáticas",
-            "url": "./assets/event-images/valparaiso/d8963d929a1258f516c79797.webp"
-          },
-          "last_verified_at": "2026-10-24T11:50:29-03:00",
-          "links": {
-            "official": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/",
-            "registration": null,
-            "source": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Paseo Yugoslavo 176, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Sitio web Museo Baburizza",
-            "venue_id": "museobaburizza"
-          },
-          "organizer": "Museo Baburizza",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Gratis · exposición virtual",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
-          },
-          "primary_category": {
-            "id": "exposiciones",
-            "label": "Exposiciones"
-          },
-          "public_status": {
-            "advisory_text": "Confirma condiciones de acceso en la fuente oficial. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": false,
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-24T11:50:29-03:00",
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "closing_time": "18:00",
-            "display_text": "2026-10-09 – 2026-11-13",
-            "end": "2026-11-13",
-            "end_confidence": "explicit",
-            "hours_confidence": "official_venue_schedule",
-            "mode": "multi_day",
-            "occurrences": [],
-            "opening_hours": {
-              "closing_time": "18:00",
-              "display_text": "Martes a domingo · 10:00–18:00",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-09",
-              "source_name": "Museo Baburizza",
-              "source_url": "https://www.museobaburizza.cl/visita/",
-              "verified_at": "2026-08-16"
-            },
-            "opening_time": "10:00",
-            "start": "2026-10-09",
-            "start_confidence": "explicit",
-            "timezone": "America/Santiago",
-            "venue_hours": {
-              "closing_time": "18:00",
-              "display_text": "Martes a domingo · 10:00–18:00",
-              "hours_confidence": "official_venue_schedule",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-09",
-              "source_name": "Museo Baburizza",
-              "source_url": "https://www.museobaburizza.cl/visita/",
-              "verified_at": "2026-08-16"
-            }
-          },
-          "source_id": "museobaburizza",
-          "source_name": "Museo Baburizza",
-          "source_url": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/",
-          "tags": [
-            "Exposiciones",
-            "Museo Baburizza"
-          ],
-          "title": "Miradas acuáticas"
-        },
-        "decision": {
-          "id": "agenda_baburizza_92d94cb5c6155222292a",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Miradas acuáticas"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_baburizza_92d94cb5c6155222292a",
-          "schedule": {
-            "end": "2026-11-13",
-            "mode": "multi_day",
-            "occurrences": [],
-            "start": "2026-10-09"
-          },
-          "source_id": "museobaburizza",
-          "source_urls": [
-            "https://www.museobaburizza.cl/actividad/miradas-acuaticas"
-          ],
-          "title": "Miradas acuáticas",
-          "venue": "museobaburizza"
-        },
-        "event_sha256": "cd8be1812d75714b659802cf520ab6b048acf3c31eb7c5a87f8746733bed347a",
-        "kind": "expired_removed",
-        "publication_date": "2026-11-14",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_baburizza_92d94cb5c6155222292a",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:773cd7291d15e8365f15",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_baburizza_92d94cb5c6155222292a",
-          "source_url": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/",
-          "stage": "content_quality_guard",
-          "title": "Miradas acuáticas"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "Inicio Eventos - Teatro Municipal Viña del Mar Concierto León Gieco Concierto El destacado cantautor argentino León Gieco llega al Teatro Municipal de Viña del Mar acompañado por Joana Gieco y Alejo León. Un concierto íntimo que recorrerá las canciones, histor...",
-          "event_type": "event",
-          "id": "agenda_d8d33f071e6744ffa7d28237",
-          "image": {
-            "alt": "León Gieco",
-            "url": "./assets/event-images/valparaiso/a025f1b01fdae99a54292e0a.webp"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://teatrovina.cl/evento/leon-gieco/",
-            "registration": null,
-            "source": "https://teatrovina.cl/evento/leon-gieco/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Municipal+de+Vi%C3%B1a+del+Mar%2C+Plaza+Jos%C3%A9+Francisco+Vergara+s%2Fn%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "online": false,
-            "venue": "Teatro Municipal de Viña del Mar",
-            "venue_id": "teatro-municipal-vina-del-mar",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Teatro Municipal de Viña del Mar",
-              "status": "verified",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "organizer": "Teatro Municipal de Viña del Mar",
-          "price": {
-            "currency": null,
-            "display_text": null,
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": null,
-            "information_completeness": "partial",
-            "last_verified_at": null,
-            "price_confirmed": null,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": false
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-11-13 · 20:00–22:00",
-            "end": "2026-11-13T22:00:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-11-13T20:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "teatro_municipal_vina",
-          "source_name": "Teatro Municipal de Viña del Mar",
-          "source_url": "https://teatrovina.cl/evento/leon-gieco/",
-          "tags": [],
-          "title": "León Gieco"
-        },
-        "decision": {
-          "id": "agenda_d8d33f071e6744ffa7d28237",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "León Gieco"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_d8d33f071e6744ffa7d28237",
-          "schedule": {
-            "end": "2026-11-13T22:00:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-11-13T20:00:00-03:00"
-          },
-          "source_id": "teatro_municipal_vina",
-          "source_urls": [
-            "https://teatrovina.cl/evento/leon-gieco"
-          ],
-          "title": "León Gieco",
-          "venue": "teatro-municipal-vina-del-mar"
-        },
-        "event_sha256": "fafa41c9e98e070952221669b71a0afae3a99e4f382082f9a5660d28853fca3e",
-        "kind": "expired_removed",
-        "publication_date": "2026-11-14",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_d8d33f071e6744ffa7d28237",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:b53e9020ca1e7efc061b",
-          "provenance": {
-            "verified_venue": {
-              "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_d8d33f071e6744ffa7d28237",
-          "source_url": "https://teatrovina.cl/evento/leon-gieco/",
-          "stage": "content_quality_guard",
-          "title": "León Gieco"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
-          "event_type": "event",
-          "id": "agenda_trotamundos_280f7e9a869b876582bd",
-          "image": {
-            "alt": "Planeta No en Trotamundos, Valparaíso",
-            "url": "./assets/event-images/valparaiso/a95bd816dae7d84e0471e52d.webp"
-          },
-          "last_verified_at": "2026-10-24T11:49:07-03:00",
-          "links": {
-            "official": "https://linktr.ee/trotavalparaiso",
-            "registration": null,
-            "source": "https://linktr.ee/trotavalparaiso",
-            "tickets": "https://www.passline.com/eventos/planeta-no-en-trotamundos-valparaiso"
-          },
-          "location": {
-            "address": "Blanco 1253, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Trotamundos Valparaíso",
-            "venue_id": "trotamundosvalpo"
-          },
-          "organizer": "Trotamundos Valparaíso",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Desde $6.000",
-            "is_free": false,
-            "max_amount": null,
-            "min_amount": 6000
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "public_status": {
-            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": false,
-            "external_link_quality": "direct_ticketing",
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-24T11:49:07-03:00",
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": true,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-11-13 · 20:00",
-            "end": null,
-            "mode": "single",
-            "occurrences": [],
-            "start": "2026-11-13T20:00:00-03:00",
-            "start_confidence": "explicit",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "trotamundosvalpo",
-          "source_name": "Trotamundos Valparaíso",
-          "source_url": "https://linktr.ee/trotavalparaiso",
-          "tags": [
-            "Música",
-            "Trotamundos Valparaíso"
-          ],
-          "title": "Planeta No en Trotamundos, Valparaíso"
-        },
-        "decision": {
-          "id": "agenda_trotamundos_280f7e9a869b876582bd",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Planeta No en Trotamundos, Valparaíso"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_trotamundos_280f7e9a869b876582bd",
-          "schedule": {
-            "end": null,
-            "mode": "single",
-            "occurrences": [],
-            "start": "2026-11-13T20:00:00-03:00"
-          },
-          "source_id": "trotamundosvalpo",
-          "source_urls": [
-            "https://linktr.ee/trotavalparaiso"
-          ],
-          "title": "Planeta No en Trotamundos, Valparaíso",
-          "venue": "trotamundosvalpo"
-        },
-        "event_sha256": "e9a8229cd0fa765a66c1d756992c7685868a41d3324355e0ed4e0b5f9cd4b577",
-        "kind": "expired_removed",
-        "publication_date": "2026-11-14",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_trotamundos_280f7e9a869b876582bd",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:608b17d06737d83b9548",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://linktr.ee/trotavalparaiso"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_trotamundos_280f7e9a869b876582bd",
-          "source_url": "https://linktr.ee/trotavalparaiso",
-          "stage": "content_quality_guard",
-          "title": "Planeta No en Trotamundos, Valparaíso"
+          "title": "Flamenco Triana — encuentro de flamenco en Reñaca"
         }
       },
       {
@@ -25031,110 +24289,8 @@
       }
     ],
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-11-14T09:54:31+00:00",
+    "generated_at": "2026-11-14T10:09:54+00:00",
     "receipts": [
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_87f9a18c0cb99e0e4986d472",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:7e3aaf381d111904e055",
-        "provenance": {
-          "verified_venue": {
-            "address": "Condell 1349, Valparaíso",
-            "city": "Valparaíso",
-            "method": "canonical_venue_registry",
-            "source_url": "https://valpocultura.cl/evento/sala-ipa-cuestion-de-ubicacion-2/",
-            "venue_id": "centro-cultural-ipa",
-            "verified_at": "2026-09-21"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_87f9a18c0cb99e0e4986d472",
-        "source_url": "https://www.instagram.com/p/Dew32oihvba/",
-        "stage": "content_quality_guard",
-        "title": "𝗗𝗲𝗯𝘂𝘁 𝗱𝗲 𝗖𝗿𝗶𝘀𝘀 𝗲𝗻 𝗩𝗮𝗹𝗽𝗮𝗿𝗮í𝘀𝗼"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_a3040fec5e515c7b994fe8cc",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:193f564d1b730357d84f",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.instagram.com/p/DfAHkg1xtBF/"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_a3040fec5e515c7b994fe8cc",
-        "source_url": "https://www.instagram.com/p/DfAHkg1xtBF/",
-        "stage": "content_quality_guard",
-        "title": "¡Que la música también sea parte del aprendizaje!"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_baburizza_92d94cb5c6155222292a",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:773cd7291d15e8365f15",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_baburizza_92d94cb5c6155222292a",
-        "source_url": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/",
-        "stage": "content_quality_guard",
-        "title": "Miradas acuáticas"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_d8d33f071e6744ffa7d28237",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:b53e9020ca1e7efc061b",
-        "provenance": {
-          "verified_venue": {
-            "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-            "city": "Viña del Mar",
-            "method": "canonical_venue_registry",
-            "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
-            "venue_id": "teatro-municipal-vina-del-mar",
-            "verified_at": "2026-09-20"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_d8d33f071e6744ffa7d28237",
-        "source_url": "https://teatrovina.cl/evento/leon-gieco/",
-        "stage": "content_quality_guard",
-        "title": "León Gieco"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_trotamundos_280f7e9a869b876582bd",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:608b17d06737d83b9548",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://linktr.ee/trotavalparaiso"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_trotamundos_280f7e9a869b876582bd",
-        "source_url": "https://linktr.ee/trotavalparaiso",
-        "stage": "content_quality_guard",
-        "title": "Planeta No en Trotamundos, Valparaíso"
-      },
       {
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
