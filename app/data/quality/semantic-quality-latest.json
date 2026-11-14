@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "eb71f89e611ac49a006e7c3bbe19941041558048a159eb1a7df2b38b0f86a0e1",
-  "generated_at": "2026-11-13T12:14:55Z",
+  "fingerprint": "82c8f6953479a3b449f40563b84ce7f9a4b4071a5d2703367dd055d047a58378",
+  "generated_at": "2026-11-14T09:56:24Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -324,27 +324,84 @@
     },
     "valparaiso::balmaceda arte joven valparaiso": {
       "category_distribution": {
-        "exposiciones": 1.0
+        "exposiciones": 0.5,
+        "teatro": 0.5
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
+      "dominant_share": 0.5,
       "source_name": "Balmaceda Arte Joven Valparaíso",
-      "source_url": "https://www.instagram.com/p/DfPgwYtoe4-/",
+      "source_url": "https://www.instagram.com/p/Dfp_KJtD7yV/",
+      "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::casa de la cultura de valparaiso": {
+      "category_distribution": {
+        "ferias-vida-local": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "ferias-vida-local",
+      "dominant_share": 1.0,
+      "source_name": "Casa de la Cultura de Valparaíso",
+      "source_url": "https://www.instagram.com/p/DftOIcxRfU1/",
       "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::casa prisma valpo": {
+      "category_distribution": {
+        "ferias-vida-local": 0.5,
+        "musica": 0.5
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "ferias-vida-local",
+      "dominant_share": 0.5,
+      "source_name": "Casa Prisma Valpo",
+      "source_url": "https://www.instagram.com/p/DfQNyfKmEBd/",
+      "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::centro de extension duoc uc valparaiso": {
+      "category_distribution": {
+        "cine": 0.333333,
+        "musica": 0.333333,
+        "teatro": 0.333333
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cine",
+      "dominant_share": 0.333333,
+      "source_name": "Centro de Extensión Duoc UC Valparaíso",
+      "source_url": "https://www.instagram.com/p/Dfr6mG4JVGT/",
+      "total": 3,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::cine arte vina del mar": {
+      "category_distribution": {
+        "cine": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cine",
+      "dominant_share": 1.0,
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://www.instagram.com/p/DfVesuniGsJ/",
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::cultura pucv": {
       "category_distribution": {
-        "musica": 1.0
+        "cine": 0.571429,
+        "musica": 0.428571
       },
       "city_id": "valparaiso",
-      "dominant_category": "musica",
-      "dominant_share": 1.0,
+      "dominant_category": "cine",
+      "dominant_share": 0.571429,
       "source_name": "Cultura PUCV",
-      "source_url": "https://www.instagram.com/p/DfAHkg1xtBF/",
-      "total": 1,
+      "source_url": "https://www.instagram.com/p/DfrrDVgPxwi/",
+      "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -358,6 +415,33 @@
       "source_name": "Cultura USM",
       "source_url": "https://cultura.usm.cl/eventos/el-nuevo-referente-del-bolero-catalina-y-las-bordonas-de-oro/",
       "total": 5,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::estadio espanol recreo": {
+      "category_distribution": {
+        "ferias-vida-local": 0.75,
+        "musica": 0.25
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "ferias-vida-local",
+      "dominant_share": 0.75,
+      "source_name": "Estadio Español Recreo",
+      "source_url": "https://www.instagram.com/p/Dfr9NPpBJj5/",
+      "total": 4,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::estrella negra club de jazz": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Estrella Negra Club de Jazz",
+      "source_url": "https://www.instagram.com/p/Dfh8I_eGJxn/",
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -376,13 +460,14 @@
     },
     "valparaiso::museo baburizza": {
       "category_distribution": {
-        "exposiciones": 1.0
+        "cursos-talleres-campus": 0.142857,
+        "exposiciones": 0.857143
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
+      "dominant_share": 0.857143,
       "source_name": "Museo Baburizza",
-      "source_url": "https://www.museobaburizza.cl/actividad/miradas-acuaticas/",
+      "source_url": "https://www.museobaburizza.cl/actividad/exposicion-virtual-con-fotografias-ganadoras-del-concurso-el-puerto-la-puerta-de-valparaiso/",
       "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -402,27 +487,29 @@
     },
     "valparaiso::museo fonck": {
       "category_distribution": {
-        "exposiciones": 1.0
+        "cursos-talleres-campus": 0.111111,
+        "exposiciones": 0.888889
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
+      "dominant_share": 0.888889,
       "source_name": "Museo Fonck",
-      "source_url": "https://www.instagram.com/p/Dep0GPBgY7c/",
-      "total": 8,
+      "source_url": "https://www.instagram.com/p/DfswtqEGpHa/",
+      "total": 9,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::museo palacio rioja": {
       "category_distribution": {
-        "cursos-talleres-campus": 1.0
+        "cine": 0.5,
+        "cursos-talleres-campus": 0.5
       },
       "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 1.0,
+      "dominant_category": "cine",
+      "dominant_share": 0.5,
       "source_name": "Museo Palacio Rioja",
       "source_url": "https://www.instagram.com/p/Dbq3J8wlpKk/",
-      "total": 1,
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -442,16 +529,16 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "ferias-vida-local": 0.02439,
-        "musica": 0.878049,
-        "teatro": 0.097561
+        "ferias-vida-local": 0.025641,
+        "musica": 0.871795,
+        "teatro": 0.102564
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.878049,
+      "dominant_share": 0.871795,
       "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/valpoisyours",
-      "total": 41,
+      "source_url": "https://www.portaldisc.com/evento/muevete3-14-11-26",
+      "total": 39,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -496,13 +583,13 @@
     },
     "valparaiso::sala teatro ipa": {
       "category_distribution": {
-        "musica": 1.0
+        "teatro": 1.0
       },
       "city_id": "valparaiso",
-      "dominant_category": "musica",
+      "dominant_category": "teatro",
       "dominant_share": 1.0,
       "source_name": "Sala Teatro IPA",
-      "source_url": "https://www.instagram.com/p/Dew32oihvba/",
+      "source_url": "https://www.instagram.com/p/DfkA05RSKAP/",
       "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -522,27 +609,42 @@
     },
     "valparaiso::teatro municipal de valparaiso": {
       "category_distribution": {
-        "teatro": 1.0
+        "cine": 0.333333,
+        "teatro": 0.666667
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 1.0,
+      "dominant_share": 0.666667,
       "source_name": "Teatro Municipal de Valparaíso",
-      "source_url": "https://www.instagram.com/p/Dc90JHbAjbP/",
-      "total": 1,
+      "source_url": "https://www.instagram.com/p/DfpiNbtmUwj/",
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::teatro municipal de vina del mar": {
       "category_distribution": {
-        "musica": 1.0
+        "cine": 0.894737,
+        "musica": 0.105263
       },
       "city_id": "valparaiso",
-      "dominant_category": "musica",
-      "dominant_share": 1.0,
+      "dominant_category": "cine",
+      "dominant_share": 0.894737,
       "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://teatrovina.cl/evento/leon-gieco/",
-      "total": 3,
+      "source_url": "https://teatrovina.cl/evento/el-barbero-de-sevilla/",
+      "total": 19,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::teatromuseo": {
+      "category_distribution": {
+        "teatro": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "teatro",
+      "dominant_share": 1.0,
+      "source_name": "TeatroMuseo",
+      "source_url": "https://www.instagram.com/p/DfiWcJmiXzD/",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -562,14 +664,15 @@
     },
     "valparaiso::valparaiso profundo": {
       "category_distribution": {
-        "exposiciones": 1.0
+        "exposiciones": 0.333333,
+        "teatro": 0.666667
       },
       "city_id": "valparaiso",
-      "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
+      "dominant_category": "teatro",
+      "dominant_share": 0.666667,
       "source_name": "Valparaíso Profundo",
-      "source_url": "https://www.instagram.com/p/DekyANDtRp4",
-      "total": 1,
+      "source_url": "https://www.instagram.com/p/Dfk6XqUoNg7/",
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -598,16 +701,30 @@
       "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
+    },
+    "valparaiso::visita vina municipalidad de vina del mar": {
+      "category_distribution": {
+        "exposiciones": 0.666667,
+        "musica": 0.333333
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 0.666667,
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_url": "https://www.instagram.com/p/DfsJWfZJzTg/",
+      "total": 3,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     }
   },
-  "source_ref": "a241e429286c41373c9bb2ef62fade83bc1e6ef1",
+  "source_ref": "aeab9a403976f1f862db11b063a0a1d01b4e7a44",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 43,
-    "total_events": 387,
+    "source_count": 51,
+    "total_events": 438,
     "unclassified_count": 11,
-    "unclassified_rate": 0.028424
+    "unclassified_rate": 0.025114
   },
   "unclassified_queue": [
     {
