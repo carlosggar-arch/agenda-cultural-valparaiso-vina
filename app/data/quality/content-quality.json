@@ -1,8 +1,8 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 310,
-  "events_after": 154,
+  "events_before": 315,
+  "events_after": 159,
   "removed": 156,
   "html_cleaned": [],
   "titles_recovered": [],
@@ -1484,6 +1484,204 @@
           "source_url": "https://www.instagram.com/p/DfQcCpCIELw/",
           "stage": "content_quality_guard",
           "title": "Sala Secreta — próximas funciones del quinto aniversario"
+        }
+      },
+      {
+        "before_event": {
+          "audience": null,
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "description": "Sábado 21 noviembre en Parque Cultural de Valparaíso y domingo 22 noviembre en Cerro Concepción, Catedral Saint Paul y pasacalles. La noticia oficial no especifica horas individuales.",
+          "editorial": {
+            "classification": "event",
+            "reason": "Exact official source reviewed 14 November 2026",
+            "verified_public_event_overlay": true,
+            "verified_source_occurrence": {
+              "contract": "verified-source-occurrence/1",
+              "function_id": "source-slot-85ab82e6d1925f4174224e96",
+              "source_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles/",
+              "start_date": "2026-11-21"
+            }
+          },
+          "event_type": "event",
+          "id": "agenda_4c89faae5203d5b731cbead1",
+          "image": {
+            "alt": null,
+            "url": null
+          },
+          "last_verified_at": "2026-11-14T07:36:00-03:00",
+          "links": {
+            "official": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles/",
+            "registration": null,
+            "source": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles/",
+            "tickets": null
+          },
+          "location": {
+            "address": "Parque Cultural y Cerro Concepción, Valparaíso",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "latitude": null,
+            "longitude": null,
+            "online": false,
+            "venue": "Parque Cultural de Valparaíso y Cerro Concepción",
+            "venue_id": null
+          },
+          "organizer": "CENTEX",
+          "price": {
+            "currency": "CLP",
+            "display_text": "Consultar condiciones",
+            "is_free": null,
+            "max_amount": null,
+            "min_amount": null
+          },
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "provenance": {
+            "verified_category_evidence": {
+              "authority": "verified_public_events",
+              "category": {
+                "id": "musica",
+                "label": "Música"
+              },
+              "contract": "verified-category-evidence/1",
+              "evidence_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles",
+              "function_id": "source-slot-85ab82e6d1925f4174224e96",
+              "source_id": "centex",
+              "source_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles",
+              "start": "2026-11-21"
+            },
+            "verified_public_event_overlay": {
+              "authority": "verified_public_events",
+              "contract": "verified-public-event-overlay/1"
+            }
+          },
+          "public_status": {
+            "advisory_text": "Consultar disponibilidad y condiciones con la fuente oficial.",
+            "cancelled": false,
+            "information_completeness": "partial",
+            "last_verified_at": "2026-11-14T07:36:00-03:00",
+            "price_confirmed": false,
+            "registration_closed": null,
+            "registration_open": null,
+            "sold_out": null,
+            "source_official": true
+          },
+          "registration_requirements": null,
+          "schedule": {
+            "display_text": "2026-11-21 · horario por confirmar",
+            "end": "2026-11-22",
+            "mode": "dated",
+            "occurrences": [
+              {
+                "end": null,
+                "start": "2026-11-21"
+              },
+              {
+                "end": null,
+                "start": "2026-11-22"
+              }
+            ],
+            "start": "2026-11-21",
+            "start_confidence": "official_source_confirmed",
+            "timezone": "America/Santiago"
+          },
+          "semantics": {
+            "source_category": {
+              "id": "musica",
+              "label": "Música"
+            }
+          },
+          "source_id": "centex",
+          "source_name": "CENTEX",
+          "source_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles/",
+          "tags": [
+            "CENTEX",
+            "Valparaíso"
+          ],
+          "title": "Festival Internacional de Organilleros y Chinchineros Manuel Lizana"
+        },
+        "decision": {
+          "id": "agenda_4c89faae5203d5b731cbead1",
+          "missing_evidence": [
+            "verified_performance_start_time"
+          ],
+          "reason": "performance_without_verified_concrete_session",
+          "title": "Festival Internacional de Organilleros y Chinchineros Manuel Lizana"
+        },
+        "event_binding": {
+          "city": "Valparaíso",
+          "id": "agenda_4c89faae5203d5b731cbead1",
+          "schedule": {
+            "end": "2026-11-22",
+            "mode": "dated",
+            "occurrences": [
+              {
+                "end": null,
+                "start": "2026-11-21"
+              },
+              {
+                "end": null,
+                "start": "2026-11-22"
+              }
+            ],
+            "start": "2026-11-21"
+          },
+          "source_id": "centex",
+          "source_urls": [
+            "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles"
+          ],
+          "title": "Festival Internacional de Organilleros y Chinchineros Manuel Lizana",
+          "venue": "Parque Cultural de Valparaíso y Cerro Concepción"
+        },
+        "event_sha256": "fa476f377aee0d3fef4f38362c2068b7cb3acc7a54ce81d9d2e5207b4d95166d",
+        "kind": "quarantined",
+        "publication_date": "2026-11-14",
+        "schema_version": "1.0.0",
+        "scope": "candidate_input_only_not_baseline_loss",
+        "stage": "content_quality_guard",
+        "transformation": {
+          "action": "quarantine",
+          "canonical_event_id": "agenda_4c89faae5203d5b731cbead1",
+          "destination": {
+            "canonical_event_id": null,
+            "state": "quarantine"
+          },
+          "evidence": {
+            "missing_evidence": [
+              "verified_performance_start_time"
+            ]
+          },
+          "occurrence_id": "occurrence:6bba622affe3f84df907",
+          "provenance": {
+            "verified_category_evidence": {
+              "authority": "verified_public_events",
+              "category": {
+                "id": "musica",
+                "label": "Música"
+              },
+              "contract": "verified-category-evidence/1",
+              "evidence_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles",
+              "function_id": "source-slot-85ab82e6d1925f4174224e96",
+              "source_id": "centex",
+              "source_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles",
+              "start": "2026-11-21"
+            },
+            "verified_public_event_overlay": {
+              "authority": "verified_public_events",
+              "contract": "verified-public-event-overlay/1"
+            }
+          },
+          "reason": "performance_without_verified_concrete_session",
+          "source_record_id": "agenda_4c89faae5203d5b731cbead1",
+          "source_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles/",
+          "stage": "content_quality_guard",
+          "title": "Festival Internacional de Organilleros y Chinchineros Manuel Lizana"
         }
       },
       {
@@ -24289,7 +24487,7 @@
       }
     ],
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-11-14T10:09:54+00:00",
+    "generated_at": "2026-11-14T11:02:23+00:00",
     "receipts": [
       {
         "schema_version": "1.0.0",

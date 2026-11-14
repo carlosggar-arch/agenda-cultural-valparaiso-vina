@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "da027d3269fee70dce36bd0cf3954333f32e653e8967e41a47c8dfa8ae601b3f",
-  "generated_at": "2026-11-14T10:12:39Z",
+  "fingerprint": "213290f812c0a58dafc154e411ee9923b2fb265913c273352dbf9c758cfbaa52",
+  "generated_at": "2026-11-14T11:05:13Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -336,6 +336,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::cafe masita rica": {
+      "category_distribution": {
+        "literatura": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "literatura",
+      "dominant_share": 1.0,
+      "source_name": "Café Masita Rica",
+      "source_url": "https://www.instagram.com/p/DfsCz2_Rgd1/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::casa de la cultura de valparaiso": {
       "category_distribution": {
         "ferias-vida-local": 1.0
@@ -345,6 +358,19 @@
       "dominant_share": 1.0,
       "source_name": "Casa de la Cultura de Valparaíso",
       "source_url": "https://www.instagram.com/p/DftOIcxRfU1/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::casa de la cultura valparaiso": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Casa de la Cultura Valparaíso",
+      "source_url": "https://www.instagram.com/p/Dfp_Mn6zhlo/",
       "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -360,6 +386,19 @@
       "source_name": "Casa Prisma Valpo",
       "source_url": "https://www.instagram.com/p/DfQNyfKmEBd/",
       "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::centex": {
+      "category_distribution": {
+        "exposiciones": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
+      "source_name": "CENTEX",
+      "source_url": "https://centex.cultura.gob.cl/los-dibujos-y-relatos-de-ninos-de-valparaiso-dan-vida-a-una-exposicion-de-gonzalo-ilabaca-en-centex/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -393,15 +432,16 @@
     },
     "valparaiso::cultura pucv": {
       "category_distribution": {
-        "cine": 0.571429,
-        "musica": 0.428571
+        "cine": 0.5,
+        "literatura": 0.125,
+        "musica": 0.375
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.571429,
+      "dominant_share": 0.5,
       "source_name": "Cultura PUCV",
-      "source_url": "https://www.instagram.com/p/DfrrDVgPxwi/",
-      "total": 7,
+      "source_url": "https://www.instagram.com/p/DfpEli7PZLp/",
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -415,6 +455,19 @@
       "source_name": "Cultura USM",
       "source_url": "https://cultura.usm.cl/eventos/el-nuevo-referente-del-bolero-catalina-y-las-bordonas-de-oro/",
       "total": 5,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::estadio espanol de recreo": {
+      "category_distribution": {
+        "ferias-vida-local": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "ferias-vida-local",
+      "dominant_share": 1.0,
+      "source_name": "Estadio Español de Recreo",
+      "source_url": "https://www.instagram.com/p/DfZ7pK1CURb/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -718,14 +771,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "f8b48b714c0a250d1d07e900d1e16d9d68d842f8",
+  "source_ref": "bf9a6062e5f18525502a3059a6ebeffaae5fc010",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 51,
-    "total_events": 438,
+    "source_count": 55,
+    "total_events": 443,
     "unclassified_count": 11,
-    "unclassified_rate": 0.025114
+    "unclassified_rate": 0.024831
   },
   "unclassified_queue": [
     {

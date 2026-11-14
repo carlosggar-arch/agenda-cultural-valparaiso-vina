@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-11-14T10:10:00+00:00",
+  "generated_at": "2026-11-14T11:02:32+00:00",
   "publication_date": "2026-11-14",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 152,
-    "events": 151,
+    "total": 157,
+    "events": 156,
     "courses": 0,
     "flexible_offers": 1,
     "programs": 0
@@ -1316,6 +1316,110 @@
       },
       "editorial": {
         "venue_hours_enriched": true
+      }
+    },
+    {
+      "title": "La ciudad vista por los niños — Gonzalo Ilabaca",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-14T12:00:00-03:00",
+        "end": "2027-03-14",
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-14 · 12:00",
+        "occurrences": [
+          {
+            "start": "2026-11-14T12:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "official_source_confirmed"
+      },
+      "location": {
+        "venue_id": "centex-valparaiso",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "CENTEX",
+        "address": "Plaza Sotomayor 233, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Entrada liberada"
+      },
+      "links": {
+        "official": "https://centex.cultura.gob.cl/los-dibujos-y-relatos-de-ninos-de-valparaiso-dan-vida-a-una-exposicion-de-gonzalo-ilabaca-en-centex/",
+        "source": "https://centex.cultura.gob.cl/los-dibujos-y-relatos-de-ninos-de-valparaiso-dan-vida-a-una-exposicion-de-gonzalo-ilabaca-en-centex/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "CENTEX",
+      "source_id": "centex",
+      "source_name": "CENTEX",
+      "source_url": "https://centex.cultura.gob.cl/los-dibujos-y-relatos-de-ninos-de-valparaiso-dan-vida-a-una-exposicion-de-gonzalo-ilabaca-en-centex/",
+      "last_verified_at": "2026-11-14T07:36:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T07:36:00-03:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Consultar disponibilidad y condiciones con la fuente oficial."
+      },
+      "description": "Exposición de Gonzalo Ilabaca inspirada en dibujos y relatos de niños. Inaugura sábado 14 de noviembre a las 12:00, se exhibe hasta el 14 de marzo de 2027.",
+      "tags": [
+        "CENTEX",
+        "Valparaíso"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "id": "agenda_f529cbfa2b9028da069956eb",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "exposiciones",
+            "label": "Exposiciones"
+          },
+          "source_id": "centex",
+          "source_url": "https://centex.cultura.gob.cl/los-dibujos-y-relatos-de-ninos-de-valparaiso-dan-vida-a-una-exposicion-de-gonzalo-ilabaca-en-centex",
+          "start": "2026-11-14T12:00:00-03:00",
+          "function_id": "source-slot-102f91da3eed1c7e6dd73ee6",
+          "evidence_url": "https://centex.cultura.gob.cl/los-dibujos-y-relatos-de-ninos-de-valparaiso-dan-vida-a-una-exposicion-de-gonzalo-ilabaca-en-centex"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
       }
     },
     {
@@ -4256,6 +4360,114 @@
       }
     },
     {
+      "title": "Ruta de los Pesebres 2026 — dos charlas patrimoniales",
+      "event_type": "event",
+      "primary_category": {
+        "id": "literatura",
+        "label": "Literatura"
+      },
+      "categories": [
+        {
+          "id": "literatura",
+          "label": "Literatura"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-16T16:00:00-03:00",
+        "end": "2026-11-23",
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-16 · 16:00",
+        "occurrences": [
+          {
+            "start": "2026-11-16T16:00:00-03:00",
+            "end": null
+          },
+          {
+            "start": "2026-11-23T16:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "official_source_confirmed"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Cineteca PUCV",
+        "address": "Av. Brasil 2830, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis con inscripción previa"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DfpEli7PZLp/",
+        "source": "https://www.instagram.com/p/DfpEli7PZLp/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "Cultura PUCV",
+      "source_id": "cultura_pucv",
+      "source_name": "Cultura PUCV",
+      "source_url": "https://www.instagram.com/p/DfpEli7PZLp/",
+      "last_verified_at": "2026-11-14T07:36:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T07:36:00-03:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Consultar disponibilidad y condiciones con la fuente oficial."
+      },
+      "description": "Charlas patrimoniales con Mariel Mancilla García, lunes 16 y 23 de noviembre a las 16:00. Inscripción en culturapucv.cl; ambas sesiones obligatorias para diploma.",
+      "tags": [
+        "Cultura PUCV",
+        "Valparaíso"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "id": "agenda_8915a04187c30a194c4cd28a",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "literatura",
+            "label": "Literatura"
+          },
+          "source_id": "cultura_pucv",
+          "source_url": "https://www.instagram.com/p/DfpEli7PZLp",
+          "start": "2026-11-16T16:00:00-03:00",
+          "function_id": "source-slot-fd988f846c52d6d4b48043b2",
+          "evidence_url": "https://www.instagram.com/p/DfpEli7PZLp"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "literatura",
+          "label": "Literatura"
+        }
+      }
+    },
+    {
       "title": "Amadeus (1984) — Cineteca PUCV",
       "event_type": "event",
       "primary_category": {
@@ -5707,6 +5919,110 @@
       }
     },
     {
+      "title": "Cruce poético — Paisajes del cielo inferior y 16 Poemas",
+      "event_type": "event",
+      "primary_category": {
+        "id": "literatura",
+        "label": "Literatura"
+      },
+      "categories": [
+        {
+          "id": "literatura",
+          "label": "Literatura"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-18T19:30:00-03:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-18 · 19:30",
+        "occurrences": [
+          {
+            "start": "2026-11-18T19:30:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "official_source_confirmed"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Café Masita Rica",
+        "address": "Diego Portales 476, Recreo, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Entrada liberada"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DfsCz2_Rgd1/",
+        "source": "https://www.instagram.com/p/DfsCz2_Rgd1/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "Café Masita Rica",
+      "source_id": "masita_rica",
+      "source_name": "Café Masita Rica",
+      "source_url": "https://www.instagram.com/p/DfsCz2_Rgd1/",
+      "last_verified_at": "2026-11-14T07:36:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T07:36:00-03:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Consultar disponibilidad y condiciones con la fuente oficial."
+      },
+      "description": "Lectura y presentación de libros de Joel González Vega y Juan Pablo Ibarra Contreras en recuerdo de María Martner, miércoles 18 noviembre a las 19:30.",
+      "tags": [
+        "Café Masita Rica",
+        "Viña del Mar"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "id": "agenda_78aed425a21740103680547e",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "literatura",
+            "label": "Literatura"
+          },
+          "source_id": "masita_rica",
+          "source_url": "https://www.instagram.com/p/DfsCz2_Rgd1",
+          "start": "2026-11-18T19:30:00-03:00",
+          "function_id": "source-slot-39f9bc5fa7dc5bc9027166c0",
+          "evidence_url": "https://www.instagram.com/p/DfsCz2_Rgd1"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "literatura",
+          "label": "Literatura"
+        }
+      }
+    },
+    {
       "title": "Maldita Primavera III — ciclo de cine",
       "event_type": "event",
       "primary_category": {
@@ -6803,6 +7119,110 @@
         "alt": "Gon Trujillo en Valparaiso (+18)"
       },
       "original_title": "Gon Trujillo en Valparaiso (+18)"
+    },
+    {
+      "title": "La Balsa, Farewell y Contrarreloj — noche de rock",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-20T20:00:00-03:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-20 · 20:00",
+        "occurrences": [
+          {
+            "start": "2026-11-20T20:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "official_source_confirmed"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Casa de la Cultura",
+        "address": "Cochrane 568, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 3000,
+        "max_amount": 5000,
+        "display_text": "Preventa $3.000; general $5.000; promoción 2 x $8.000"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/Dfp_Mn6zhlo/",
+        "source": "https://www.instagram.com/p/Dfp_Mn6zhlo/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "Casa de la Cultura Valparaíso",
+      "source_id": "casa_cultura_valparaiso",
+      "source_name": "Casa de la Cultura Valparaíso",
+      "source_url": "https://www.instagram.com/p/Dfp_Mn6zhlo/",
+      "last_verified_at": "2026-11-14T07:36:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T07:36:00-03:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Consultar disponibilidad y condiciones con la fuente oficial."
+      },
+      "description": "Noche de rock con las tres bandas, viernes 20 de noviembre a las 20:00. La organización anuncia entradas vía Passline.",
+      "tags": [
+        "Casa de la Cultura Valparaíso",
+        "Valparaíso"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "id": "agenda_985977ec2cb8b0e51aa7d82d",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "source_id": "casa_cultura_valparaiso",
+          "source_url": "https://www.instagram.com/p/Dfp_Mn6zhlo",
+          "start": "2026-11-20T20:00:00-03:00",
+          "function_id": "source-slot-dc3582932dc21317a9d89a1c",
+          "evidence_url": "https://www.instagram.com/p/Dfp_Mn6zhlo"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "musica",
+          "label": "Música"
+        }
+      }
     },
     {
       "id": "agenda_9850d719f4a623095bfff700",
@@ -10594,6 +11014,110 @@
         "source_category": {
           "id": "cine",
           "label": "Cine"
+        }
+      }
+    },
+    {
+      "title": "Bienvenido Verano — cena y fiesta en Estadio Español",
+      "event_type": "event",
+      "primary_category": {
+        "id": "ferias-vida-local",
+        "label": "Ferias y vida local"
+      },
+      "categories": [
+        {
+          "id": "ferias-vida-local",
+          "label": "Ferias y vida local"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-11-27T19:30:00-03:00",
+        "end": "2026-11-28T01:30:00-03:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-11-27 · 19:30",
+        "occurrences": [
+          {
+            "start": "2026-11-27T19:30:00-03:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "official_source_confirmed"
+      },
+      "location": {
+        "venue_id": "estadio-espanol-recreo",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Estadio Español Recreo",
+        "address": "Alonso de Ercilla 795, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 30000,
+        "max_amount": 35000,
+        "display_text": "Socios $30.000; general $35.000"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DfZ7pK1CURb/",
+        "source": "https://www.instagram.com/p/DfZ7pK1CURb/",
+        "tickets": null,
+        "registration": null
+      },
+      "organizer": "Estadio Español de Recreo",
+      "source_id": "estadio_espanol_recreo",
+      "source_name": "Estadio Español de Recreo",
+      "source_url": "https://www.instagram.com/p/DfZ7pK1CURb/",
+      "last_verified_at": "2026-11-14T07:36:00-03:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-11-14T07:36:00-03:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Consultar disponibilidad y condiciones con la fuente oficial."
+      },
+      "description": "Cena y fiesta con DJ del viernes 27 de noviembre a las 19:30 a sábado 28 a la 01:30. Reservas e información en el anuncio oficial.",
+      "tags": [
+        "Estadio Español de Recreo",
+        "Viña del Mar"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "id": "agenda_fff12c2b99f6a6cbb66ef6dc",
+      "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
+        "verified_category_evidence": {
+          "contract": "verified-category-evidence/1",
+          "authority": "verified_public_events",
+          "category": {
+            "id": "ferias-vida-local",
+            "label": "Ferias y vida local"
+          },
+          "source_id": "estadio_espanol_recreo",
+          "source_url": "https://www.instagram.com/p/DfZ7pK1CURb",
+          "start": "2026-11-27T19:30:00-03:00",
+          "function_id": "source-slot-8588326ef1994595d6060514",
+          "evidence_url": "https://www.instagram.com/p/DfZ7pK1CURb"
+        }
+      },
+      "semantics": {
+        "source_category": {
+          "id": "ferias-vida-local",
+          "label": "Ferias y vida local"
         }
       }
     },
@@ -16481,8 +17005,8 @@
     ]
   },
   "verified_public_events": {
-    "applied_at": "2026-11-14T07:07:01-03:00",
-    "added_count": 67,
+    "applied_at": "2026-11-14T07:59:44-03:00",
+    "added_count": 73,
     "added": [
       {
         "id": "agenda_69211fbb6583ae0c4f5f8320",
@@ -17019,6 +17543,54 @@
         "end": null,
         "source_id": "cinearte_vina",
         "official_url": "https://cinevina.cl/ficvina-reune-historias-de-resistencia-memoria-y-culturas-en-su-competencia-documental-iberoamericana/"
+      },
+      {
+        "id": "agenda_f529cbfa2b9028da069956eb",
+        "title": "La ciudad vista por los niños — Gonzalo Ilabaca",
+        "start": "2026-11-14T12:00:00-03:00",
+        "end": "2027-03-14",
+        "source_id": "centex",
+        "official_url": "https://centex.cultura.gob.cl/los-dibujos-y-relatos-de-ninos-de-valparaiso-dan-vida-a-una-exposicion-de-gonzalo-ilabaca-en-centex/"
+      },
+      {
+        "id": "agenda_4c89faae5203d5b731cbead1",
+        "title": "Festival Internacional de Organilleros y Chinchineros Manuel Lizana",
+        "start": "2026-11-21",
+        "end": "2026-11-22",
+        "source_id": "centex",
+        "official_url": "https://municipalidaddevalparaiso.cl/los-organilleros-y-chinchineros-vuelven-a-valparaiso-festival-internacional-llenara-de-musica-sus-calles/"
+      },
+      {
+        "id": "agenda_985977ec2cb8b0e51aa7d82d",
+        "title": "La Balsa, Farewell y Contrarreloj — noche de rock",
+        "start": "2026-11-20T20:00:00-03:00",
+        "end": null,
+        "source_id": "casa_cultura_valparaiso",
+        "official_url": "https://www.instagram.com/p/Dfp_Mn6zhlo/"
+      },
+      {
+        "id": "agenda_78aed425a21740103680547e",
+        "title": "Cruce poético — Paisajes del cielo inferior y 16 Poemas",
+        "start": "2026-11-18T19:30:00-03:00",
+        "end": null,
+        "source_id": "masita_rica",
+        "official_url": "https://www.instagram.com/p/DfsCz2_Rgd1/"
+      },
+      {
+        "id": "agenda_8915a04187c30a194c4cd28a",
+        "title": "Ruta de los Pesebres 2026 — dos charlas patrimoniales",
+        "start": "2026-11-16T16:00:00-03:00",
+        "end": "2026-11-23",
+        "source_id": "cultura_pucv",
+        "official_url": "https://www.instagram.com/p/DfpEli7PZLp/"
+      },
+      {
+        "id": "agenda_fff12c2b99f6a6cbb66ef6dc",
+        "title": "Bienvenido Verano — cena y fiesta en Estadio Español",
+        "start": "2026-11-27T19:30:00-03:00",
+        "end": "2026-11-28T01:30:00-03:00",
+        "source_id": "estadio_espanol_recreo",
+        "official_url": "https://www.instagram.com/p/DfZ7pK1CURb/"
       }
     ],
     "skipped": [
